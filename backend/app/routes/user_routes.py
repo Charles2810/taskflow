@@ -1,5 +1,6 @@
 """
 Rutas del recurso Usuarios (Flask Blueprint)
+Soporta IDs numéricos y UUIDs de Supabase
 """
 
 from flask import Blueprint
@@ -13,7 +14,7 @@ def list_users():
     return UserController.list_users()
 
 
-@users_bp.route("/users/<int:user_id>", methods=["GET"])
+@users_bp.route("/users/<user_id>", methods=["GET"])
 def get_user(user_id):
     return UserController.get_user(user_id)
 
@@ -23,16 +24,16 @@ def create_user():
     return UserController.create_user()
 
 
-@users_bp.route("/users/<int:user_id>", methods=["PUT"])
+@users_bp.route("/users/<user_id>", methods=["PUT"])
 def update_user(user_id):
     return UserController.update_user(user_id)
 
 
-@users_bp.route("/users/<int:user_id>", methods=["DELETE"])
+@users_bp.route("/users/<user_id>", methods=["DELETE"])
 def delete_user(user_id):
     return UserController.delete_user(user_id)
 
 
-@users_bp.route("/users/<int:user_id>/tasks", methods=["GET"])
+@users_bp.route("/users/<user_id>/tasks", methods=["GET"])
 def get_user_tasks(user_id):
     return UserController.get_user_tasks(user_id)

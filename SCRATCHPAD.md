@@ -21,8 +21,8 @@ Este documento es la **bitácora viva de desarrollo**. Aquí registramos:
 A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Este checklist te avisa con anticipación:
 
 - [x] **Sesión 01**: Tener Git instalado y cuenta de GitHub configurada (`Charles2810`).
-- [ ] **Sesión 04**: Crear cuenta en [Supabase](https://supabase.com) y crear un nuevo proyecto gratuito ("TaskFlow DB").
-  - *Se requerirá*: `SUPABASE_URL` y `SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_KEY`.
+- [x] **Sesión 04**: Crear proyecto en [Supabase](https://supabase.com) y configurar credenciales en `.env` (✅ Completado).
+  - [ ] **Acción manual pendiente**: Pegar y ejecutar el script `docs/sql/01_create_tables.sql` en el **SQL Editor** de Supabase.
 - [ ] **Sesión 12**: Crear cuenta en [Render](https://render.com) para alojar la API Flask de backend.
   - *Se requerirá*: Conectar tu cuenta de GitHub a Render.
 - [ ] **Sesión 13**: Crear cuenta en [Cloudflare Pages](https://pages.cloudflare.com) para alojar el frontend React.
@@ -36,8 +36,8 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 |---|---|:---:|---|---|
 | **01** | Entorno + Git + GitHub | ✅ **COMPLETADO** | Entorno configurado (Python 3.12, Node 24, Git), Repo GitHub creado, Estructura base, `.gitignore`, `README.md`, `SCRATCHPAD.md`. | Sesión 01 finalizada |
 | **02** | Python + Flask: Primera API | ✅ **COMPLETADO** | Entorno virtual `.venv`, `requirements.txt`, API Flask con endpoints REST completos (`GET`, `POST`, `PUT`, `DELETE`), CORS y suite de pruebas unitarias (`test_api.py`). | Sesión 02 finalizada |
-| **03** | CRUD y Estructura MVC | ✅ **COMPLETADO** | Refactorización a MVC: `models/`, `controllers/`, `routes/`, Blueprints modulares (`users_bp`, `tasks_bp`), CRUD completo de Tareas y 15 pruebas unitarias. | Pasar a Sesión 04 |
-| **04** | Supabase & Base de Datos | ⏳ **SIGUIENTE** | Migración de datos en memoria a PostgreSQL real en la nube con Supabase, esquemas SQL (`users`, `tasks`), RLS y SDK `supabase-py`. | **Crear proyecto en Supabase** |
+| **03** | CRUD y Estructura MVC | ✅ **COMPLETADO** | Refactorización a MVC: `models/`, `controllers/`, `routes/`, Blueprints modulares (`users_bp`, `tasks_bp`), CRUD completo de Tareas y 15 pruebas unitarias. | Sesión 03 finalizada |
+| **04** | Supabase & Base de Datos | ⏳ **EN PROCESO** | Integración SDK `supabase-py`, `.env` con credenciales, script de migración SQL `docs/sql/01_create_tables.sql` (tablas `users` y `tasks`, RLS e índices), Modelos adaptados a PostgreSQL. | **Ejecutar SQL en Supabase** |
 | **05** | Autenticación y Autorización | 🔜 Pendiente | JWT (JSON Web Tokens), endpoints `/auth/register` y `/auth/login`, decoradores `@token_required`. | - |
 | **06** | React + Vite Setup | 🔜 Pendiente | Inicialización de SPA en `frontend/` con Vite, configuración de scripts y estructura de componentes. | - |
 | **07** | React Router y Navegación | 🔜 Pendiente | Configuración de rutas (`/`, `/login`, `/register`, `/dashboard`), layouts y páginas protegidas. | - |

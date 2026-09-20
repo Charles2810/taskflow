@@ -1,5 +1,5 @@
 """
-Controlador de Tareas (Sesión 03 - Arquitectura MVC)
+Controlador de Tareas (Sesión 04 - Supabase PostgreSQL)
 Gestiona la lógica de negocio, validación de relaciones y transiciones de estado para Tareas.
 """
 
@@ -12,7 +12,7 @@ class TaskController:
     @staticmethod
     def list_tasks():
         """Lista tareas permitiendo filtrar por user_id y por estado."""
-        user_id_param = request.args.get("user_id", type=int)
+        user_id_param = request.args.get("user_id", type=str)
         estado_param = request.args.get("estado", type=str)
 
         tasks = TaskModel.get_all(user_id=user_id_param, estado=estado_param)
@@ -25,7 +25,6 @@ class TaskController:
         if not task:
             return jsonify({"error": "Tarea no encontrada"}), 404
 
-        # Enriquecer respuesta con datos del usuario asignado
         user = UserModel.get_by_id(task["user_id"])
         respuesta = task.copy()
         respuesta["usuario"] = {
@@ -43,7 +42,6 @@ class TaskController:
         if not data:
             return jsonify({"error": "Cuerpo de petición JSON requerido"}), 400
 
-        # Validación de campos obligatorios
         titulo = data.get("titulo")
         if not titulo or not str(titulo).strip():
             return jsonify({"error": "El campo 'titulo' es obligatorio"}), 400
@@ -52,19 +50,16 @@ class TaskController:
         if user_id is None:
             return jsonify({"error": "El campo 'user_id' es obligatorio para asignar la tarea"}), 400
 
-        # Validar que el usuario asignado exista
-        usuario = UserModel.get_by_id(int(user_id))
+        usuario = UserModel.get_by_id(user_id)
         if not usuario:
             return jsonify({"error": f"No existe un usuario con el ID {user_id}"}), 404
 
-        # Validar estado inicial
         estado = data.get("estado", "pendiente")
         if estado not in TaskModel.ESTADOS_VALIDOS:
             return jsonify({
                 "error": f"Estado '{estado}' no válido. Opciones permitidas: {TaskModel.ESTADOS_VALIDOS}"
             }), 400
 
-        # Validar prioridad
         prioridad = data.get("prioridad", "media")
         if prioridad not in TaskModel.PRIORIDADES_VALIDAS:
             return jsonify({
@@ -72,7 +67,7 @@ class TaskController:
             }), 400
 
         nueva_tarea = TaskModel.create({
-            "user_id": int(user_id),
+            "user_id": str(user_id),
             "titulo": titulo,
             "descripcion": data.get("descripcion", ""),
             "estado": estado,
@@ -110,12 +105,11 @@ class TaskController:
             update_data["prioridad"] = data["prioridad"]
 
         if "user_id" in data:
-            nuevo_user = UserModel.get_by_id(int(data["user_id"]))
+            nuevo_user = UserModel.get_by_id(data["user_id"])
             if not nuevo_user:
                 return jsonify({"error": f"El usuario asignado con ID {data['user_id']} no existe"}), 404
-            update_data["user_id"] = int(data["user_id"])
+            update_data["user_id"] = str(data["user_id"])
 
-        # Validación de transición de estado
         if "estado" in data:
             nuevo_estado = data["estado"]
             estado_actual = tarea["estado"]

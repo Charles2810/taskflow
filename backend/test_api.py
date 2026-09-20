@@ -8,7 +8,11 @@ Valida:
 - Consulta de tareas por usuario
 """
 
+import os
 import unittest
+
+os.environ["TESTING"] = "true"
+
 from app import create_app
 from app.models.user_model import UserModel
 from app.models.task_model import TaskModel
@@ -16,6 +20,7 @@ from app.models.task_model import TaskModel
 
 class TaskFlowMVCTestCase(unittest.TestCase):
     def setUp(self):
+        os.environ["TESTING"] = "true"
         # Resetear datos en memoria antes de cada test para aislamiento total
         UserModel.reset()
         TaskModel.reset()
@@ -125,7 +130,7 @@ class TaskFlowMVCTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 201)
         data = res.get_json()
         self.assertEqual(data["titulo"], payload["titulo"])
-        self.assertEqual(data["user_id"], 1)
+        self.assertEqual(str(data["user_id"]), "1")
         self.assertEqual(data["id"], 4)
 
     def test_create_task_validations(self):
