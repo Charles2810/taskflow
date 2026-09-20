@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Componente funcional Input para formularios y filtros
+ * Componente funcional Input minimalista y monocromático
  */
 export default function Input({
   label,
@@ -18,8 +18,8 @@ export default function Input({
   return (
     <div className="w-full flex flex-col gap-1.5">
       {label && (
-        <label htmlFor={id || name} className="text-xs font-semibold uppercase tracking-wider text-slate-300">
-          {label} {required && <span className="text-rose-400">*</span>}
+        <label htmlFor={id || name} className="text-xs font-medium text-zinc-400">
+          {label} {required && <span className="text-zinc-500">*</span>}
         </label>
       )}
       <input
@@ -30,11 +30,11 @@ export default function Input({
         value={value}
         onChange={onChange}
         required={required}
-        className={`w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all ${
-          error ? 'border-rose-500 focus:ring-rose-500/50' : ''
+        className={`w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-md text-zinc-100 placeholder-zinc-600 text-sm focus:outline-none focus:border-zinc-500 transition-colors ${
+          error ? 'border-zinc-500' : ''
         } ${className}`}
       />
-      {error && <span className="text-xs text-rose-400 font-medium">{error}</span>}
+      {error && <span className="text-xs text-zinc-400">{error}</span>}
     </div>
   );
 }

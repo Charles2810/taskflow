@@ -4,6 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-slate-900 text-slate-100 min-h-screen font-sans;
+    @apply bg-zinc-950 text-zinc-100 min-h-screen font-sans antialiased;
+    letter-spacing: -0.01em;
   }
 }

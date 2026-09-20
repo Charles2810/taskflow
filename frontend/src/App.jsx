@@ -4,7 +4,7 @@ import Card from './components/Card';
 import Button from './components/Button';
 import Input from './components/Input';
 import Badge from './components/Badge';
-import { Plus, Check, Trash2, ListTodo, CheckCircle, Clock, Sparkles } from 'lucide-react';
+import { Plus, Check, Trash2, ListTodo } from 'lucide-react';
 
 export default function App() {
   // Estado para la lista interactiva de tareas (Sesión 06: useState)
@@ -46,13 +46,13 @@ export default function App() {
     },
   ]);
 
-  // Estados locales para el formulario de nueva tarea
+  // Estados locales para el formulario
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [prioridad, setPrioridad] = useState('media');
   const [filtro, setFiltro] = useState('todas');
 
-  // Manejo de eventos: Crear tarea
+  // Crear tarea
   const handleCrearTarea = (e) => {
     e.preventDefault();
     if (!titulo.trim()) return;
@@ -60,7 +60,7 @@ export default function App() {
     const nuevaTarea = {
       id: Date.now(),
       titulo: titulo.trim(),
-      descripcion: descripcion.trim() || 'Sin descripción detallada',
+      descripcion: descripcion.trim() || 'Sin descripción adicional.',
       estado: 'pendiente',
       prioridad: prioridad,
     };
@@ -71,7 +71,7 @@ export default function App() {
     setPrioridad('media');
   };
 
-  // Manejo de eventos: Alternar estado completada / pendiente
+  // Alternar completada / pendiente
   const toggleEstado = (id) => {
     setTasks(
       tasks.map((t) => {
@@ -84,12 +84,12 @@ export default function App() {
     );
   };
 
-  // Manejo de eventos: Eliminar tarea
+  // Eliminar tarea
   const eliminarTarea = (id) => {
     setTasks(tasks.filter((t) => t.id !== id));
   };
 
-  // Filtros derivados
+  // Filtros
   const tareasFiltradas = tasks.filter((t) => {
     if (filtro === 'pendientes') return t.estado === 'pendiente' || t.estado === 'en_progreso';
     if (filtro === 'completadas') return t.estado === 'completada';
@@ -100,83 +100,81 @@ export default function App() {
   const pendientesCount = tasks.filter((t) => t.estado === 'pendiente' || t.estado === 'en_progreso').length;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
-      {/* Navbar con Props */}
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col font-sans">
+      {/* Navbar Minimalista */}
       <Navbar
         appName="TaskFlow"
         taskCount={tasks.length}
-        user={{ nombre: 'Charles Mendoza', rol: 'Desarrollador' }}
+        user={{ nombre: 'Charles Mendoza', rol: 'desarrollador' }}
       />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Banner de Bienvenida / Sesión 06 */}
-        <div className="mb-8 p-6 rounded-2xl bg-gradient-to-r from-indigo-950/60 via-slate-900 to-indigo-900/40 border border-indigo-500/20 shadow-2xl relative overflow-hidden">
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-semibold mb-3">
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                Sesión 06: React + Vite + TailwindCSS
-              </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                Panel de Tareas y Componentes Funcionales
-              </h1>
-              <p className="text-slate-400 text-sm mt-1 max-w-2xl">
-                Demostración interactiva de gestión de estado con <code className="text-indigo-400 font-mono">useState</code>, paso de propiedades mediante <code className="text-indigo-400 font-mono">props</code> y diseño responsivo con TailwindCSS.
-              </p>
+        {/* Cabecera Minimalista (Sin gradientes) */}
+        <div className="mb-8 pb-6 border-b border-zinc-800/80 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <div className="text-[11px] font-mono uppercase tracking-widest text-zinc-500 mb-1">
+              Sesión 06 / React + Vite
             </div>
-            {/* Contadores rápidos */}
-            <div className="flex items-center gap-3">
-              <div className="bg-slate-900/80 px-4 py-3 rounded-xl border border-slate-800 text-center min-w-24">
-                <p className="text-xs text-slate-400 font-medium">Pendientes</p>
-                <p className="text-2xl font-extrabold text-amber-400 mt-0.5">{pendientesCount}</p>
-              </div>
-              <div className="bg-slate-900/80 px-4 py-3 rounded-xl border border-slate-800 text-center min-w-24">
-                <p className="text-xs text-slate-400 font-medium">Completadas</p>
-                <p className="text-2xl font-extrabold text-emerald-400 mt-0.5">{completadasCount}</p>
-              </div>
+            <h1 className="text-2xl font-bold text-white tracking-tight">
+              Gestor de Tareas
+            </h1>
+            <p className="text-xs text-zinc-400 mt-1">
+              Arquitectura de componentes funcionales, props y estado con useState.
+            </p>
+          </div>
+
+          {/* Métricas Monocromáticas */}
+          <div className="flex items-center gap-2">
+            <div className="bg-zinc-900 border border-zinc-800 px-3.5 py-2 rounded-md min-w-28 text-left">
+              <span className="text-[11px] text-zinc-500 font-mono block">Pendientes</span>
+              <span className="text-lg font-mono font-semibold text-zinc-100">{pendientesCount}</span>
+            </div>
+            <div className="bg-zinc-900 border border-zinc-800 px-3.5 py-2 rounded-md min-w-28 text-left">
+              <span className="text-[11px] text-zinc-500 font-mono block">Completadas</span>
+              <span className="text-lg font-mono font-semibold text-zinc-100">{completadasCount}</span>
             </div>
           </div>
         </div>
 
-        {/* Layout Grid: Formulario (Izquierda) + Listado (Derecha) */}
+        {/* Layout: Formulario + Listado */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Formulario de Creación con Componentes */}
+          {/* Formulario */}
           <div className="lg:col-span-1">
             <Card
               title="Nueva Tarea"
-              subtitle="Crea una tarea para actualizar el estado"
-              className="sticky top-24"
+              subtitle="Ingresa los datos para registrarla"
+              className="sticky top-20"
             >
               <form onSubmit={handleCrearTarea} className="flex flex-col gap-4">
                 <Input
-                  label="Título de la Tarea"
-                  placeholder="Ej. Crear vista de login en React"
+                  label="Título"
+                  placeholder="Ej. Configurar React Router"
                   value={titulo}
                   onChange={(e) => setTitulo(e.target.value)}
                   required
                 />
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">
+                  <label className="text-xs font-medium text-zinc-400">
                     Descripción
                   </label>
                   <textarea
                     rows={3}
-                    placeholder="Detalles sobre lo que se debe hacer..."
+                    placeholder="Detalles sobre la tarea..."
                     value={descripcion}
                     onChange={(e) => setDescripcion(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all resize-none"
+                    className="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-md text-zinc-100 placeholder-zinc-600 text-sm focus:outline-none focus:border-zinc-500 transition-colors resize-none"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">
+                  <label className="text-xs font-medium text-zinc-400">
                     Prioridad
                   </label>
                   <select
                     value={prioridad}
                     onChange={(e) => setPrioridad(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-lg text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
+                    className="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-md text-zinc-100 text-sm focus:outline-none focus:border-zinc-500 transition-colors"
                   >
                     <option value="baja">Baja</option>
                     <option value="media">Media</option>
@@ -186,7 +184,7 @@ export default function App() {
 
                 <Button type="submit" variant="primary" className="w-full mt-2">
                   <Plus className="w-4 h-4" />
-                  Agregar Tarea
+                  Crear Tarea
                 </Button>
               </form>
             </Card>
@@ -194,16 +192,16 @@ export default function App() {
 
           {/* Listado de Tareas */}
           <div className="lg:col-span-2 flex flex-col gap-4">
-            {/* Barra de Filtros */}
-            <div className="flex items-center justify-between gap-2 p-1.5 bg-slate-900 border border-slate-800 rounded-xl">
+            {/* Filtros Monocromáticos */}
+            <div className="flex items-center justify-between gap-2 border-b border-zinc-800 pb-3">
               <div className="flex items-center gap-1">
                 <button
                   type="button"
                   onClick={() => setFiltro('todas')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  className={`px-3 py-1.5 rounded text-xs transition-colors font-medium ${
                     filtro === 'todas'
-                      ? 'bg-indigo-600 text-white shadow'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-white text-zinc-950 font-semibold'
+                      : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
                   }`}
                 >
                   Todas ({tasks.length})
@@ -211,10 +209,10 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setFiltro('pendientes')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  className={`px-3 py-1.5 rounded text-xs transition-colors font-medium ${
                     filtro === 'pendientes'
-                      ? 'bg-indigo-600 text-white shadow'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-white text-zinc-950 font-semibold'
+                      : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
                   }`}
                 >
                   Pendientes ({pendientesCount})
@@ -222,28 +220,28 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setFiltro('completadas')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  className={`px-3 py-1.5 rounded text-xs transition-colors font-medium ${
                     filtro === 'completadas'
-                      ? 'bg-indigo-600 text-white shadow'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-white text-zinc-950 font-semibold'
+                      : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
                   }`}
                 >
                   Completadas ({completadasCount})
                 </button>
               </div>
 
-              <div className="text-xs text-slate-400 px-3 hidden sm:block">
-                Mostrando {tareasFiltradas.length} tarea(s)
-              </div>
+              <span className="text-xs text-zinc-500 font-mono hidden sm:block">
+                {tareasFiltradas.length} item(s)
+              </span>
             </div>
 
-            {/* Tarjetas de Tareas */}
+            {/* Listado */}
             {tareasFiltradas.length === 0 ? (
-              <Card className="text-center py-12">
-                <ListTodo className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-                <h4 className="text-base font-semibold text-slate-300">No hay tareas en esta categoría</h4>
-                <p className="text-xs text-slate-500 mt-1">Crea una nueva tarea para comenzar a organizarte.</p>
-              </Card>
+              <div className="border border-zinc-800 border-dashed rounded-lg p-12 text-center">
+                <ListTodo className="w-8 h-8 text-zinc-600 mx-auto mb-2" />
+                <p className="text-sm font-medium text-zinc-400">Sin tareas registradas</p>
+                <p className="text-xs text-zinc-600 mt-0.5">Agrega una tarea desde el formulario lateral.</p>
+              </div>
             ) : (
               tareasFiltradas.map((tarea) => {
                 const isCompleted = tarea.estado === 'completada';
@@ -251,46 +249,46 @@ export default function App() {
                 return (
                   <div
                     key={tarea.id}
-                    className={`p-4 rounded-xl border transition-all duration-200 bg-slate-900/60 backdrop-blur flex items-start justify-between gap-4 ${
+                    className={`p-4 rounded-lg border transition-colors bg-zinc-900/60 flex items-start justify-between gap-4 ${
                       isCompleted
-                        ? 'border-emerald-500/20 bg-emerald-950/10 opacity-75'
-                        : 'border-slate-800 hover:border-slate-700 hover:bg-slate-900'
+                        ? 'border-zinc-800/60 opacity-60'
+                        : 'border-zinc-800 hover:border-zinc-700'
                     }`}
                   >
-                    {/* Botón Checkbox */}
+                    {/* Checkbox minimalista */}
                     <button
                       type="button"
                       onClick={() => toggleEstado(tarea.id)}
-                      className={`mt-0.5 flex-shrink-0 w-6 h-6 rounded-lg border flex items-center justify-center transition-all cursor-pointer ${
+                      className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer flex-shrink-0 ${
                         isCompleted
-                          ? 'bg-emerald-600 border-emerald-500 text-white'
-                          : 'border-slate-700 hover:border-indigo-500 bg-slate-800/80 text-transparent'
+                          ? 'bg-white border-white text-zinc-950'
+                          : 'border-zinc-700 hover:border-zinc-400 bg-zinc-950 text-transparent'
                       }`}
                     >
-                      <Check className="w-4 h-4" />
+                      <Check className="w-3.5 h-3.5 stroke-[3]" />
                     </button>
 
-                    {/* Contenido */}
+                    {/* Texto */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap mb-1.5">
-                        <h4
-                          className={`font-semibold text-sm ${
-                            isCompleted ? 'line-through text-slate-400' : 'text-slate-100'
+                      <div className="flex items-center gap-2 flex-wrap mb-1">
+                        <span
+                          className={`text-sm font-medium ${
+                            isCompleted ? 'line-through text-zinc-500' : 'text-zinc-100'
                           }`}
                         >
                           {tarea.titulo}
-                        </h4>
+                        </span>
                         <Badge text={tarea.estado} type="status" />
                         <Badge text={tarea.prioridad} type="priority" />
                       </div>
-                      <p className="text-xs text-slate-400 leading-relaxed">{tarea.descripcion}</p>
+                      <p className="text-xs text-zinc-400 leading-relaxed">{tarea.descripcion}</p>
                     </div>
 
-                    {/* Botón Eliminar */}
+                    {/* Eliminar */}
                     <button
                       type="button"
                       onClick={() => eliminarTarea(tarea.id)}
-                      className="text-slate-500 hover:text-rose-400 p-1.5 rounded-lg hover:bg-rose-500/10 transition-all cursor-pointer flex-shrink-0"
+                      className="text-zinc-500 hover:text-zinc-200 p-1.5 rounded hover:bg-zinc-800 transition-colors cursor-pointer flex-shrink-0"
                       title="Eliminar tarea"
                     >
                       <Trash2 className="w-4 h-4" />

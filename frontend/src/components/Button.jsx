@@ -1,13 +1,7 @@
 import React from 'react';
 
 /**
- * Componente funcional Button (Sesión 06)
- * @param {React.ReactNode} children - Contenido del botón
- * @param {'primary' | 'secondary' | 'danger' | 'outline' | 'success'} variant - Estilo visual
- * @param {Function} onClick - Manejador de evento click
- * @param {'button' | 'submit' | 'reset'} type - Tipo de botón
- * @param {boolean} disabled - Estado deshabilitado
- * @param {string} className - Clases CSS complementarias
+ * Componente funcional Button con estilo minimalista y monocromático
  */
 export default function Button({
   children,
@@ -18,11 +12,11 @@ export default function Button({
   className = '',
 }) {
   const styles = {
-    primary: 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/20 border border-indigo-500/30',
-    secondary: 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700',
-    danger: 'bg-rose-600 hover:bg-rose-500 text-white shadow-md shadow-rose-600/20',
-    outline: 'border border-indigo-500/50 text-indigo-400 hover:bg-indigo-500/10',
-    success: 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-md shadow-emerald-600/20',
+    primary: 'bg-white text-zinc-950 hover:bg-zinc-200 border border-white font-semibold',
+    secondary: 'bg-zinc-900 text-zinc-200 hover:bg-zinc-800 border border-zinc-800',
+    outline: 'bg-transparent text-zinc-300 hover:text-white border border-zinc-700 hover:border-zinc-500 hover:bg-zinc-900/50',
+    danger: 'bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-800',
+    ghost: 'bg-transparent text-zinc-400 hover:text-white hover:bg-zinc-900',
   };
 
   return (
@@ -30,7 +24,7 @@ export default function Button({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none ${styles[variant] || styles.primary} ${className}`}
+      className={`px-4 py-2 rounded-md text-sm transition-colors duration-150 inline-flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none ${styles[variant] || styles.primary} ${className}`}
     >
       {children}
     </button>

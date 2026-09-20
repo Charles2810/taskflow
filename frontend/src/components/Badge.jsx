@@ -1,36 +1,46 @@
 import React from 'react';
 
 /**
- * Componente funcional Badge para representar estados y prioridades
+ * Componente funcional Badge minimalista y monocromático
  */
 export default function Badge({ text, type = 'status' }) {
-  const statusStyles = {
-    completada: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
-    en_progreso: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
-    pendiente: 'bg-blue-500/10 text-blue-400 border-blue-500/30',
-  };
+  const isCompleted = text?.toLowerCase() === 'completada';
+  const isInProgress = text?.toLowerCase() === 'en_progreso';
+  const isHigh = text?.toLowerCase() === 'alta';
 
-  const priorityStyles = {
-    alta: 'bg-rose-500/10 text-rose-400 border-rose-500/30',
-    media: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
-    baja: 'bg-slate-500/10 text-slate-300 border-slate-500/30',
-  };
+  let badgeStyle = 'bg-zinc-900 text-zinc-400 border-zinc-800';
 
-  const styleMap = type === 'priority' ? priorityStyles : statusStyles;
-  const currentStyle = styleMap[text?.toLowerCase()] || 'bg-slate-700/30 text-slate-300 border-slate-600/30';
+  if (type === 'status') {
+    if (isCompleted) {
+      badgeStyle = 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold';
+    } else if (isInProgress) {
+      badgeStyle = 'bg-zinc-800 text-zinc-200 border-zinc-700';
+    } else {
+      badgeStyle = 'bg-zinc-950 text-zinc-400 border-zinc-800';
+    }
+  } else {
+    // Prioridad
+    if (isHigh) {
+      badgeStyle = 'bg-zinc-800 text-zinc-200 border-zinc-600 font-medium';
+    } else {
+      badgeStyle = 'bg-zinc-950 text-zinc-400 border-zinc-800';
+    }
+  }
 
   const labels = {
     completada: 'Completada',
-    en_progreso: 'En Progreso',
+    en_progreso: 'En progreso',
     pendiente: 'Pendiente',
-    alta: 'Prioridad Alta',
-    media: 'Prioridad Media',
-    baja: 'Prioridad Baja',
+    alta: 'Alta',
+    media: 'Media',
+    baja: 'Baja',
   };
 
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border ${currentStyle}`}>
-      <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+    <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] border tracking-tight ${badgeStyle}`}>
+      {type === 'status' && !isCompleted && (
+        <span className="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>
+      )}
       {labels[text?.toLowerCase()] || text}
     </span>
   );
