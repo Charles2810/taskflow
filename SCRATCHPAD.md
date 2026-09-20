@@ -253,9 +253,14 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
      - Documentación de los parámetros exactos para crear el Web Service en Render (Root Directory: `backend`, Build: `pip install -r requirements.txt`, Start: `gunicorn run:app`).
      - Variables de entorno documentadas: `PYTHON_VERSION`, `SUPABASE_URL`, `SUPABASE_SECRET_KEY` y `JWT_SECRET`.
      - Procedimiento de prueba y verificación de la URL pública (`/`, `/api/health`, `/api/tasks`).
-  5. **Validación y Pruebas**:
+  5. **Validación y Pruebas en Vivo**:
+     - **URL Pública en Render**: [`https://taskflow-zt2r.onrender.com`](https://taskflow-zt2r.onrender.com) (Estado: **`Live`**).
+     - Verificación `GET /`: `{"status": "online", "service": "TaskFlow API", "version": "1.2.0"}`.
+     - Verificación `GET /api/health`: `{"status": "ok", "service": "taskflow-backend"}`.
+     - Verificación `GET /api/tasks`: Respuesta exitosa con tareas sincronizadas directamente desde PostgreSQL en Supabase.
      - 20/20 pruebas unitarias aprobadas (**0.058s**).
      - Frontend build validado exitosamente en **1.30s**.
+
 
 ---
 
