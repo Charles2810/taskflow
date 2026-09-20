@@ -21,8 +21,7 @@ Este documento es la **bitácora viva de desarrollo**. Aquí registramos:
 A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Este checklist te avisa con anticipación:
 
 - [x] **Sesión 01**: Tener Git instalado y cuenta de GitHub configurada (`Charles2810`).
-- [x] **Sesión 04**: Crear proyecto en [Supabase](https://supabase.com) y configurar credenciales en `.env` (✅ Completado).
-  - [ ] **Acción manual pendiente**: Pegar y ejecutar el script `docs/sql/01_create_tables.sql` en el **SQL Editor** de Supabase.
+- [x] **Sesión 04**: Crear proyecto en [Supabase](https://supabase.com), configurar `.env` y ejecutar script SQL (✅ Completado y verificado en vivo).
 - [ ] **Sesión 12**: Crear cuenta en [Render](https://render.com) para alojar la API Flask de backend.
   - *Se requerirá*: Conectar tu cuenta de GitHub a Render.
 - [ ] **Sesión 13**: Crear cuenta en [Cloudflare Pages](https://pages.cloudflare.com) para alojar el frontend React.
@@ -37,8 +36,8 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 | **01** | Entorno + Git + GitHub | ✅ **COMPLETADO** | Entorno configurado (Python 3.12, Node 24, Git), Repo GitHub creado, Estructura base, `.gitignore`, `README.md`, `SCRATCHPAD.md`. | Sesión 01 finalizada |
 | **02** | Python + Flask: Primera API | ✅ **COMPLETADO** | Entorno virtual `.venv`, `requirements.txt`, API Flask con endpoints REST completos (`GET`, `POST`, `PUT`, `DELETE`), CORS y suite de pruebas unitarias (`test_api.py`). | Sesión 02 finalizada |
 | **03** | CRUD y Estructura MVC | ✅ **COMPLETADO** | Refactorización a MVC: `models/`, `controllers/`, `routes/`, Blueprints modulares (`users_bp`, `tasks_bp`), CRUD completo de Tareas y 15 pruebas unitarias. | Sesión 03 finalizada |
-| **04** | Supabase & Base de Datos | ⏳ **EN PROCESO** | Integración SDK `supabase-py`, `.env` con credenciales, script de migración SQL `docs/sql/01_create_tables.sql` (tablas `users` y `tasks`, RLS e índices), Modelos adaptados a PostgreSQL. | **Ejecutar SQL en Supabase** |
-| **05** | Autenticación y Autorización | 🔜 Pendiente | JWT (JSON Web Tokens), endpoints `/auth/register` y `/auth/login`, decoradores `@token_required`. | - |
+| **04** | Supabase & Base de Datos | ✅ **COMPLETADO** | Conexión activa a PostgreSQL en la nube, tablas `users` y `tasks` creadas con RLS, SDK `supabase-py` integrado y verificado con consultas en vivo. | Pasar a Sesión 05 |
+| **05** | Autenticación y Autorización | ⏳ **SIGUIENTE** | Sistema Auth con JWT / Supabase Auth, endpoints `/auth/register` y `/auth/login`, decoradores `@token_required` y `@admin_required`. | Iniciar Sesión 05 |
 | **06** | React + Vite Setup | 🔜 Pendiente | Inicialización de SPA en `frontend/` con Vite, configuración de scripts y estructura de componentes. | - |
 | **07** | React Router y Navegación | 🔜 Pendiente | Configuración de rutas (`/`, `/login`, `/register`, `/dashboard`), layouts y páginas protegidas. | - |
 | **08** | Consumo de API y Estado | 🔜 Pendiente | Servicios Axios/Fetch, Custom Hooks, Context API para autenticación global y sesión persistente. | - |
