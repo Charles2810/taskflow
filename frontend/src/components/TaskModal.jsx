@@ -69,9 +69,10 @@ export default function TaskModal({
       onClick={onClose}
     >
       <div
-        className="bg-zinc-950 border border-zinc-800 rounded-lg max-w-lg w-full p-6 shadow-2xl relative"
+        className="bg-zinc-950 border border-zinc-800 rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto p-4 sm:p-6 shadow-2xl relative"
         onClick={(e) => e.stopPropagation()}
       >
+
         {/* Cabecera del Modal */}
         <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
           <div>

@@ -299,43 +299,43 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 📊 Métricas y Estadísticas Monocromáticas */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="bg-zinc-950 border border-zinc-800 p-4 rounded-lg">
+      {/* 📊 Métricas y Estadísticas Monocromáticas (Responsive Grid) */}
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
+        <div className="bg-zinc-950 border border-zinc-800 p-3.5 sm:p-4 rounded-lg">
           <div className="flex items-center justify-between text-zinc-500 mb-2">
-            <span className="text-xs font-mono uppercase tracking-wider">Total Tareas</span>
+            <span className="text-[11px] sm:text-xs font-mono uppercase tracking-wider">Total Tareas</span>
             <Layers className="w-4 h-4" />
           </div>
-          <div className="text-2xl font-bold font-mono text-white">{metrics.total}</div>
-          <div className="text-[11px] text-zinc-500 mt-1">Registradas en sistema</div>
+          <div className="text-xl sm:text-2xl font-bold font-mono text-white">{metrics.total}</div>
+          <div className="text-[10px] sm:text-[11px] text-zinc-500 mt-1">Registradas</div>
         </div>
 
-        <div className="bg-zinc-950 border border-zinc-800 p-4 rounded-lg">
+        <div className="bg-zinc-950 border border-zinc-800 p-3.5 sm:p-4 rounded-lg">
           <div className="flex items-center justify-between text-zinc-500 mb-2">
-            <span className="text-xs font-mono uppercase tracking-wider">Pendientes</span>
+            <span className="text-[11px] sm:text-xs font-mono uppercase tracking-wider">Pendientes</span>
             <Clock className="w-4 h-4" />
           </div>
-          <div className="text-2xl font-bold font-mono text-zinc-200">{metrics.pendientes}</div>
-          <div className="text-[11px] text-zinc-500 mt-1">Por iniciar</div>
+          <div className="text-xl sm:text-2xl font-bold font-mono text-zinc-200">{metrics.pendientes}</div>
+          <div className="text-[10px] sm:text-[11px] text-zinc-500 mt-1">Por iniciar</div>
         </div>
 
-        <div className="bg-zinc-950 border border-zinc-800 p-4 rounded-lg">
+        <div className="bg-zinc-950 border border-zinc-800 p-3.5 sm:p-4 rounded-lg">
           <div className="flex items-center justify-between text-zinc-500 mb-2">
-            <span className="text-xs font-mono uppercase tracking-wider">En Progreso</span>
+            <span className="text-[11px] sm:text-xs font-mono uppercase tracking-wider">En Progreso</span>
             <RefreshCw className="w-4 h-4" />
           </div>
-          <div className="text-2xl font-bold font-mono text-zinc-200">{metrics.enProgreso}</div>
-          <div className="text-[11px] text-zinc-500 mt-1">En ejecución actual</div>
+          <div className="text-xl sm:text-2xl font-bold font-mono text-zinc-200">{metrics.enProgreso}</div>
+          <div className="text-[10px] sm:text-[11px] text-zinc-500 mt-1">En curso</div>
         </div>
 
-        <div className="bg-zinc-950 border border-zinc-800 p-4 rounded-lg">
+        <div className="bg-zinc-950 border border-zinc-800 p-3.5 sm:p-4 rounded-lg">
           <div className="flex items-center justify-between text-zinc-500 mb-2">
-            <span className="text-xs font-mono uppercase tracking-wider">Completadas</span>
+            <span className="text-[11px] sm:text-xs font-mono uppercase tracking-wider">Completadas</span>
             <CheckCircle className="w-4 h-4" />
           </div>
-          <div className="text-2xl font-bold font-mono text-zinc-100">{metrics.completadas}</div>
-          <div className="text-[11px] text-zinc-500 mt-1 flex items-center justify-between">
-            <span>Tasa de avance</span>
+          <div className="text-xl sm:text-2xl font-bold font-mono text-zinc-100">{metrics.completadas}</div>
+          <div className="text-[10px] sm:text-[11px] text-zinc-500 mt-1 flex items-center justify-between">
+            <span>Avance</span>
             <span className="font-mono text-zinc-300 font-semibold">{metrics.porcentaje}%</span>
           </div>
         </div>
@@ -357,11 +357,11 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 🔍 Barra de Búsqueda, Filtros y Vistas */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-6">
+      {/* 🔍 Barra de Búsqueda, Filtros y Vistas (Responsive Layout) */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 mb-6">
         <div className="flex-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
           {/* Buscador */}
-          <div className="relative flex-1">
+          <div className="relative flex-1 min-w-[180px]">
             <Search className="w-4 h-4 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
@@ -372,8 +372,8 @@ export default function Dashboard() {
             />
           </div>
 
-          {/* Filtro por Estado */}
-          <div className="flex items-center gap-1 bg-zinc-950 border border-zinc-800 p-1 rounded-md">
+          {/* Filtro por Estado con scroll horizontal suave en móviles */}
+          <div className="flex items-center gap-1 bg-zinc-950 border border-zinc-800 p-1 rounded-md overflow-x-auto max-w-full">
             {[
               { id: 'todas', label: 'Todas' },
               { id: 'pendiente', label: 'Pendientes' },
@@ -384,7 +384,7 @@ export default function Dashboard() {
                 key={tab.id}
                 type="button"
                 onClick={() => setFiltroEstado(tab.id)}
-                className={`px-2.5 py-1 text-[11px] rounded transition-colors font-medium cursor-pointer ${
+                className={`px-2.5 py-1 text-[11px] rounded transition-colors font-medium whitespace-nowrap cursor-pointer ${
                   filtroEstado === tab.id
                     ? 'bg-white text-zinc-950 font-semibold'
                     : 'text-zinc-400 hover:text-white'
@@ -399,7 +399,7 @@ export default function Dashboard() {
           <select
             value={filtroPrioridad}
             onChange={(e) => setFiltroPrioridad(e.target.value)}
-            className="px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-md text-xs text-zinc-300 focus:outline-none focus:border-zinc-500 transition-colors"
+            className="px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-md text-xs text-zinc-300 focus:outline-none focus:border-zinc-500 transition-colors w-full sm:w-auto"
           >
             <option value="todas">Todas las prioridades</option>
             <option value="alta">Prioridad Alta</option>
@@ -409,33 +409,39 @@ export default function Dashboard() {
         </div>
 
         {/* Selector de Vista: Tabla / Tarjetas */}
-        <div className="flex items-center gap-1 bg-zinc-950 border border-zinc-800 p-1 rounded-md self-end sm:self-auto">
-          <button
-            type="button"
-            onClick={() => setVista('tabla')}
-            className={`p-1.5 rounded transition-colors cursor-pointer ${
-              vista === 'tabla'
-                ? 'bg-zinc-800 text-white'
-                : 'text-zinc-500 hover:text-zinc-300'
-            }`}
-            title="Vista de Tabla"
-          >
-            <TableIcon className="w-3.5 h-3.5" />
-          </button>
-          <button
-            type="button"
-            onClick={() => setVista('tarjetas')}
-            className={`p-1.5 rounded transition-colors cursor-pointer ${
-              vista === 'tarjetas'
-                ? 'bg-zinc-800 text-white'
-                : 'text-zinc-500 hover:text-zinc-300'
-            }`}
-            title="Vista de Tarjetas"
-          >
-            <LayoutGrid className="w-3.5 h-3.5" />
-          </button>
+        <div className="flex items-center justify-between sm:justify-end gap-2">
+          <span className="text-xs text-zinc-500 font-mono sm:hidden">
+            {tareasFiltradas.length} tarea(s)
+          </span>
+          <div className="flex items-center gap-1 bg-zinc-950 border border-zinc-800 p-1 rounded-md">
+            <button
+              type="button"
+              onClick={() => setVista('tabla')}
+              className={`p-1.5 rounded transition-colors cursor-pointer ${
+                vista === 'tabla'
+                  ? 'bg-zinc-800 text-white'
+                  : 'text-zinc-500 hover:text-zinc-300'
+              }`}
+              title="Vista de Tabla"
+            >
+              <TableIcon className="w-3.5 h-3.5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setVista('tarjetas')}
+              className={`p-1.5 rounded transition-colors cursor-pointer ${
+                vista === 'tarjetas'
+                  ? 'bg-zinc-800 text-white'
+                  : 'text-zinc-500 hover:text-zinc-300'
+              }`}
+              title="Vista de Tarjetas"
+            >
+              <LayoutGrid className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       </div>
+
 
       {/* 📋 Contenido de Tareas (Carga, Vacío o Listado) */}
       {loading ? (
@@ -488,11 +494,11 @@ export default function Dashboard() {
             <table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="border-b border-zinc-800 bg-zinc-900/50 text-zinc-400 font-mono uppercase tracking-wider text-[10px]">
-                  <th className="py-3 px-4 w-12 text-center">Check</th>
-                  <th className="py-3 px-4">Tarea & Descripción</th>
-                  <th className="py-3 px-4 w-32">Prioridad</th>
-                  <th className="py-3 px-4 w-40">Estado</th>
-                  <th className="py-3 px-4 w-28 text-right">Acciones</th>
+                  <th className="py-3 px-4 w-12 text-center whitespace-nowrap">Check</th>
+                  <th className="py-3 px-4 min-w-[200px]">Tarea & Descripción</th>
+                  <th className="py-3 px-4 w-32 whitespace-nowrap">Prioridad</th>
+                  <th className="py-3 px-4 w-40 whitespace-nowrap">Estado</th>
+                  <th className="py-3 px-4 w-28 text-right whitespace-nowrap">Acciones</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-800/60">
@@ -507,7 +513,7 @@ export default function Dashboard() {
                       }`}
                     >
                       {/* Checkbox de toggle rápido */}
-                      <td className="py-3.5 px-4 text-center">
+                      <td className="py-3.5 px-4 text-center whitespace-nowrap">
                         <button
                           type="button"
                           onClick={() => handleToggleEstado(tarea.id, tarea.estado)}
@@ -523,7 +529,7 @@ export default function Dashboard() {
                       </td>
 
                       {/* Tarea y Descripción */}
-                      <td className="py-3.5 px-4">
+                      <td className="py-3.5 px-4 min-w-[200px]">
                         <div className="flex flex-col">
                           <span
                             className={`text-sm font-medium ${
@@ -541,12 +547,12 @@ export default function Dashboard() {
                       </td>
 
                       {/* Prioridad */}
-                      <td className="py-3.5 px-4">
+                      <td className="py-3.5 px-4 whitespace-nowrap">
                         <Badge text={tarea.prioridad} type="priority" />
                       </td>
 
                       {/* Estado con Selector Rápido */}
-                      <td className="py-3.5 px-4">
+                      <td className="py-3.5 px-4 whitespace-nowrap">
                         <select
                           value={tarea.estado}
                           onChange={(e) => handleCambiarEstado(tarea.id, e.target.value)}
@@ -559,8 +565,9 @@ export default function Dashboard() {
                       </td>
 
                       {/* Acciones: Editar y Eliminar */}
-                      <td className="py-3.5 px-4 text-right">
+                      <td className="py-3.5 px-4 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-1">
+
                           <button
                             type="button"
                             onClick={() => {

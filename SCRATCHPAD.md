@@ -41,12 +41,13 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 | **06** | React + Vite Setup | ✅ **COMPLETADO** | Configuración de React 18 con Vite, TailwindCSS, PostCSS, componentes base (`Button`, `Card`, `Input`, `Navbar`, `Badge`) y estado reactivo con `useState`. | Pasar a Sesión 07 |
 | **07** | React Router y Navegación | ✅ **COMPLETADO** | `react-router-dom` configurado, rutas públicas (`/`, `/login`, `/register`), ruta protegida (`/dashboard`), `MainLayout`, 404 `NotFound` y enlaces fluidos. | Sesión 07 finalizada |
 | **08** | Consumo de API y Estado | ✅ **COMPLETADO** | Conexión Frontend-Backend con `fetch`, `useEffect`, manejo de estados `loading`/`error`, cliente `api.js` y `AuthContext` global con persistencia. | Sesión 08 finalizada |
-| **09** | Dashboard CRUD en React | ✅ **COMPLETADO** | Panel con métricas y barra de progreso, tabla/tarjetas de tareas, filtros dinámicos, modales controlados de crear/editar/eliminar y toasts de feedback. | Pasar a Sesión 10 |
-| **10** | Diseño Responsive + Tailwind | ⏳ **SIGUIENTE** | Adaptabilidad completa en móviles, tablets y monitores ultra-wide, menú responsive (drawer/hamburguesa) y micro-interacciones. | Optimizar diseño responsive |
-| **11** | Formularios y Validación | 🔜 Pendiente | Validación de formularios, manejo de errores de backend y notificaciones toast de éxito/alerta. | - |
+| **09** | Dashboard CRUD en React | ✅ **COMPLETADO** | Panel con métricas y barra de progreso, tabla/tarjetas de tareas, filtros dinámicos, modales controlados de crear/editar/eliminar y toasts de feedback. | Sesión 09 finalizada |
+| **10** | Diseño Responsive + Tailwind | ✅ **COMPLETADO** | Adaptabilidad mobile-first en móviles, tablets y escritorio, menú hamburguesa interactivo en `Navbar.jsx`, métricas adaptativas y tablas scrolleables. | Pasar a Sesión 11 |
+| **11** | Formularios y Validación | ⏳ **SIGUIENTE** | Validación exhaustiva de formularios (cliente y servidor), estados de error visuales y notificaciones toast enriquecidas. | Implementar validaciones |
 | **12** | Deploy Backend en Render | 🔜 Pendiente | Archivo `Procfile` / `render.yaml`, variables de entorno en Render, API pública en producción. | Requiere cuenta Render |
 | **13** | Deploy Frontend en Cloudflare | 🔜 Pendiente | Build de producción (`npm run build`), configuración en Cloudflare Pages, conexión con API de Render. | Requiere cuenta Cloudflare |
 | **14** | Integración Final & Pruebas | 🔜 Pendiente | Pruebas de integración E2E, documentación final, revisión de rúbrica y entrega académica. | - |
+
 
 
 ---
@@ -190,12 +191,34 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 
 ---
 
-### ⏳ Próxima Sesión: Sesión 10 - Diseño Responsive con Tailwind
+### ✅ Sesión 10: Diseño Responsive con Tailwind CSS (De Móvil a Escritorio)
+- **Objetivo**: Aplicar un enfoque mobile-first en toda la aplicación, dominando los breakpoints de Tailwind (`sm: 640px`, `md: 768px`, `lg: 1024px`, `xl: 1280px`), implementando navegación móvil interactiva y garantizando usabilidad en pantallas pequeñas y grandes.
+- **Acciones Realizadas**:
+  1. **Navegación Móvil Responsive (`frontend/src/components/Navbar.jsx`)**:
+     - Botón de menú hamburguesa interactivo con alternancia de iconos `Menu` y `X`.
+     - Drawer/desplegable móvil colapsable que incluye enlaces de navegación (`Inicio`, `Dashboard`), estado activo y perfil de usuario con botón de cerrar sesión.
+     - Enlaces de escritorio ocultos en pantallas móviles (`hidden md:flex`) y visibles en tablets/laptops.
+  2. **Dashboard Adaptativo (`frontend/src/pages/Dashboard.jsx`)**:
+     - Cuadrícula de métricas flexible: 2 columnas en móviles (`grid-cols-2 sm:grid-cols-2`) y 4 columnas en escritorios (`lg:grid-cols-4`) con padding adaptativo.
+     - Barra de filtros con scroll horizontal suave (`overflow-x-auto`) para no romper la disposición en pantallas angostas.
+     - Controles apilables en móvil y alineados en escritorio (`flex flex-col lg:flex-row`).
+     - Tabla de tareas optimizada con `overflow-x-auto`, celdas con `whitespace-nowrap` y ancho mínimo para lectura cómoda al deslizar horizontalmente.
+  3. **Modales Responsivos (`TaskModal.jsx`)**:
+     - Restricción de altura máxima del viewport (`max-h-[90vh]`) con scroll interno suave y espaciados adaptables (`p-4 sm:p-6`) para evitar desbordamientos en pantallas pequeñas o en orientación horizontal.
+  4. **Coherencia de Diseño**:
+     - Estricta preservación de la estética minimalista y monocromática sin gradientes.
+  5. **Validación y Compilación**:
+     - `npm.cmd run build` exitoso (**1.30s**).
+     - 20/20 pruebas unitarias del backend aprobadas (**0.061s**).
+
+---
+
+### ⏳ Próxima Sesión: Sesión 11 - Formularios y Validación
 - **Qué haremos**:
-  1. Optimizar la adaptabilidad del layout completo para dispositivos móviles (smartphones), tablets y monitores de escritorio.
-  2. Implementar menú de navegación móvil (drawer o menú hamburguesa colapsable) en `Navbar.jsx`.
-  3. Ajustar tablas y cuadrículas de tareas para una experiencia táctil y lectura cómoda en pantallas pequeñas.
-  4. Pulir espaciados, tipografías y micro-interacciones conservando la estética monocromática sin gradientes.
+  1. Implementar validación exhaustiva tanto en cliente como en backend para todos los formularios (Login, Registro, Creación/Edición de Tareas).
+  2. Manejar mensajes de error específicos por campo y resguardo ante inputs inválidos o maliciosos.
+  3. Integrar retroalimentación con estados visuales de foco/error y notificaciones toast enriquecidas.
 - **Lo que tú necesitas hacer**:
   - Ninguna acción externa requerida. Todo el desarrollo se realizará y validará localmente.
+
 
