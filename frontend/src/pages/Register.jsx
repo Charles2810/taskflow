@@ -4,9 +4,11 @@ import Card from '../components/Card';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { UserPlus, ArrowRight } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function Register() {
   const navigate = useNavigate();
+  const { register } = useAuth();
 
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
@@ -14,7 +16,7 @@ export default function Register() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleRegister = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -31,32 +33,14 @@ export default function Register() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre: nombre.trim(), email: email.trim(), password }),
-      }).catch(() => null);
-
-      if (response && response.ok) {
-        const data = await response.json();
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        navigate('/dashboard', { replace: true });
-        return;
-      }
-
-      // Modo demo si backend no responde
-      const demoUser = {
-        id: Date.now().toString(),
+      await register({
         nombre: nombre.trim(),
         email: email.trim(),
-        rol: 'usuario',
-      };
-      localStorage.setItem('token', 'demo-jwt-registered-session-07');
-      localStorage.setItem('user', JSON.stringify(demoUser));
+        password,
+      });
       navigate('/dashboard', { replace: true });
     } catch (err) {
-      setError('Error al registrar usuario.');
+      setError(err.message || 'Error al registrar usuario.');
     } finally {
       setLoading(false);
     }
@@ -71,7 +55,7 @@ export default function Register() {
           </div>
           <h2 className="text-xl font-bold text-white tracking-tight">Crear Cuenta</h2>
           <p className="text-xs text-zinc-400 mt-1">
-            Empieza a organizar tus proyectos hoy mismo.
+            Registro con persistencia en Supabase y token JWT.
           </p>
         </div>
 
@@ -81,7 +65,7 @@ export default function Register() {
           </div>
         )}
 
-        <form onSubmit={handleRegister} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <Input
             label="Nombre Completo"
             placeholder="Ej. Ana Gómez"

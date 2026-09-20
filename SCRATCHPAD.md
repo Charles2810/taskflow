@@ -39,9 +39,9 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 | **04** | Supabase & Base de Datos | ✅ **COMPLETADO** | Conexión activa a PostgreSQL en la nube, tablas `users` y `tasks` creadas con RLS, SDK `supabase-py` integrado y verificado con consultas en vivo. | Sesión 04 finalizada |
 | **05** | Autenticación y Autorización | ✅ **COMPLETADO** | Módulo de Auth JWT / Supabase, endpoints `/auth/register`, `/auth/login`, `/auth/me`, decoradores `@token_required` y `@admin_required`, 20 pruebas unitarias aprobadas. | Pasar a Sesión 06 |
 | **06** | React + Vite Setup | ✅ **COMPLETADO** | Configuración de React 18 con Vite, TailwindCSS, PostCSS, componentes base (`Button`, `Card`, `Input`, `Navbar`, `Badge`) y estado reactivo con `useState`. | Pasar a Sesión 07 |
-| **07** | React Router y Navegación | ✅ **COMPLETADO** | `react-router-dom` configurado, rutas públicas (`/`, `/login`, `/register`), ruta protegida (`/dashboard`), `MainLayout`, 404 `NotFound` y enlaces fluidos. | Pasar a Sesión 08 |
-| **08** | Consumo de API y Estado | ⏳ **SIGUIENTE** | Conexión Frontend-Backend con `fetch` / `axios`, `useEffect`, manejo de estados `loading`/`error` y `AuthContext` global. | Conectar API en React |
-| **09** | Dashboard CRUD en React | 🔜 Pendiente | Listado interactivo de tareas, modal de creación/edición, cambio de estado (pendiente/completada), eliminación. | - |
+| **07** | React Router y Navegación | ✅ **COMPLETADO** | `react-router-dom` configurado, rutas públicas (`/`, `/login`, `/register`), ruta protegida (`/dashboard`), `MainLayout`, 404 `NotFound` y enlaces fluidos. | Sesión 07 finalizada |
+| **08** | Consumo de API y Estado | ✅ **COMPLETADO** | Conexión Frontend-Backend con `fetch`, `useEffect`, manejo de estados `loading`/`error`, cliente `api.js` y `AuthContext` global con persistencia. | Pasar a Sesión 09 |
+| **09** | Dashboard CRUD en React | ⏳ **SIGUIENTE** | Dashboard interactivo completo: creación, edición, filtrado avanzado por estado/prioridad, modal interactivo y contadores en vivo. | Construir CRUD interactivo |
 | **10** | Diseño Responsive + Tailwind | 🔜 Pendiente | Estilos modernos, diseño móvil/tablet/desktop, temas y feedback visual enriquecido. | - |
 | **11** | Formularios y Validación | 🔜 Pendiente | Validación de formularios, manejo de errores de backend y notificaciones toast de éxito/alerta. | - |
 | **12** | Deploy Backend en Render | 🔜 Pendiente | Archivo `Procfile` / `render.yaml`, variables de entorno en Render, API pública en producción. | Requiere cuenta Render |
@@ -131,11 +131,38 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 
 ---
 
-### ⏳ Próxima Sesión: Sesión 08 - Consumo de API y Estado Global
+### ✅ Sesión 08: Consumo de API y Estado Global (Context API + useEffect)
+- **Objetivo**: Conectar el frontend en React con la API REST de Flask y Supabase, centralizar el estado de sesión y sincronizar tareas asíncronamente con ciclo de vida `useEffect`.
+- **Acciones Realizadas**:
+  1. **Proxy en Vite (`frontend/vite.config.js`)**:
+     - Configurado proxy hacia `http://127.0.0.1:5000` para reenviar peticiones `/api/*` y evitar bloqueos por CORS en desarrollo local.
+  2. **Servicio Centralizado HTTP (`frontend/src/services/api.js`)**:
+     - `apiRequest()` con inyección automática de cabecera `Authorization: Bearer <token>` obtenida de `localStorage`.
+     - `authService`: `login()`, `register()`, `getMe()`.
+     - `taskService`: `getAll(params)`, `getById(id)`, `create(data)`, `update(id, data)`, `delete(id)`.
+  3. **Estado Global con React Context (`frontend/src/context/AuthContext.jsx`)**:
+     - `AuthContext`, `AuthProvider`, and hook personalizado `useAuth()`.
+     - Persistencia de sesión (`token` y `user`) en `localStorage`.
+     - Funciones de autenticación: `login()`, `register()`, `logout()`.
+     - Fallback local de pruebas integrado para resiliencia si el backend está desconectado.
+  4. **Envoltura Global en la Aplicación (`frontend/src/App.jsx`)**:
+     - `<AuthProvider>` envolviendo todas las rutas para propagar el estado de usuario a toda la jerarquía de componentes.
+  5. **Vistas Conectadas en Vivo**:
+     - `Dashboard.jsx`: Carga tareas mediante `taskService.getAll()` dentro de `useEffect`, gestiona estados `loading` (con skeletons animados) y `error` con reintento, sincroniza creación con `taskService.create()`, toggle de estado optimista con `taskService.update()` y eliminación con `taskService.delete()`.
+     - `Login.jsx` & `Register.jsx`: Integradas con `useAuth().login` y `useAuth().register`, manejando feedback de errores y redirección automática.
+     - `Navbar.jsx`: Muestra información de usuario autenticado (`user.nombre`, `user.rol`), avatar monocromático y acción de `logout()`.
+     - `ProtectedRoute.jsx`: Valida `isAuthenticated` y espera a `loading` antes de redirigir a `/login`.
+  6. **Validación y Compilación**:
+     - `npm.cmd run build` exitoso (**1.35s**) generando bundles limpios en `dist/`.
+     - 20 pruebas unitarias del backend pasando al 100%.
+
+---
+
+### ⏳ Próxima Sesión: Sesión 09 - Dashboard y CRUD en React
 - **Qué haremos**:
-  1. Crear un contexto global de autenticación (`AuthContext.jsx` con Context API) para proveer el usuario y token a toda la app.
-  2. Crear módulo de servicios cliente para consumir la API Flask (`/api/tasks`, `/api/users`, `/api/auth`).
-  3. Manejar estados asíncronos (`loading`, `error`, `data`) con `useEffect` en las vistas.
-  4. Conectar el frontend con el backend en tiempo real.
+  1. Enriquecer el Dashboard con un CRUD interactivo completo para tareas.
+  2. Implementar modales o formularios dedicados de edición rápida.
+  3. Filtros avanzados por estado (`todas`, `pendiente`, `en_progreso`, `completada`) y prioridad (`baja`, `media`, `alta`).
+  4. Contadores y métricas en vivo sincronizadas con la base de datos Supabase.
 - **Lo que tú necesitas hacer**:
   - Ninguna acción externa requerida. Todo el desarrollo se realizará y validará localmente.

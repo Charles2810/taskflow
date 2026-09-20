@@ -1,21 +1,18 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { CheckSquare, LogOut } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 /**
- * Barra de navegación con soporte para React Router y estilo minimalista monocromático
+ * Barra de navegación conectada a AuthContext (Sesión 08)
  */
 export default function Navbar({ appName = 'TaskFlow' }) {
   const navigate = useNavigate();
   const location = useLocation();
-
-  const token = localStorage.getItem('token');
-  const storedUser = localStorage.getItem('user');
-  const user = storedUser ? JSON.parse(storedUser) : null;
+  const { user, isAuthenticated, logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    logout();
     navigate('/login');
   };
 
@@ -24,7 +21,7 @@ export default function Navbar({ appName = 'TaskFlow' }) {
   return (
     <header className="sticky top-0 z-50 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
-        {/* Logo / Marca */}
+        {/* Marca / Logo */}
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
             <div className="w-7 h-7 rounded bg-white flex items-center justify-center text-zinc-950">
@@ -33,7 +30,7 @@ export default function Navbar({ appName = 'TaskFlow' }) {
             <span className="text-sm font-semibold tracking-tight text-white">{appName}</span>
           </Link>
 
-          {/* Enlaces Principales */}
+          {/* Enlaces de Navegación */}
           <nav className="hidden md:flex items-center gap-1 text-xs">
             <Link
               to="/"
@@ -56,7 +53,7 @@ export default function Navbar({ appName = 'TaskFlow' }) {
 
         {/* Acciones de Autenticación */}
         <div className="flex items-center gap-3">
-          {token ? (
+          {isAuthenticated ? (
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 text-xs">
                 <div className="w-7 h-7 rounded border border-zinc-700 bg-zinc-900 flex items-center justify-center font-mono text-zinc-200">
