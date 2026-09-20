@@ -42,11 +42,12 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 | **07** | React Router y Navegación | ✅ **COMPLETADO** | `react-router-dom` configurado, rutas públicas (`/`, `/login`, `/register`), ruta protegida (`/dashboard`), `MainLayout`, 404 `NotFound` y enlaces fluidos. | Sesión 07 finalizada |
 | **08** | Consumo de API y Estado | ✅ **COMPLETADO** | Conexión Frontend-Backend con `fetch`, `useEffect`, manejo de estados `loading`/`error`, cliente `api.js` y `AuthContext` global con persistencia. | Sesión 08 finalizada |
 | **09** | Dashboard CRUD en React | ✅ **COMPLETADO** | Panel con métricas y barra de progreso, tabla/tarjetas de tareas, filtros dinámicos, modales controlados de crear/editar/eliminar y toasts de feedback. | Sesión 09 finalizada |
-| **10** | Diseño Responsive + Tailwind | ✅ **COMPLETADO** | Adaptabilidad mobile-first en móviles, tablets y escritorio, menú hamburguesa interactivo en `Navbar.jsx`, métricas adaptativas y tablas scrolleables. | Pasar a Sesión 11 |
-| **11** | Formularios y Validación | ⏳ **SIGUIENTE** | Validación exhaustiva de formularios (cliente y servidor), estados de error visuales y notificaciones toast enriquecidas. | Implementar validaciones |
-| **12** | Deploy Backend en Render | 🔜 Pendiente | Archivo `Procfile` / `render.yaml`, variables de entorno en Render, API pública en producción. | Requiere cuenta Render |
+| **10** | Diseño Responsive + Tailwind | ✅ **COMPLETADO** | Adaptabilidad mobile-first en móviles, tablets y escritorio, menú hamburguesa interactivo en `Navbar.jsx`, métricas adaptativas y tablas scrolleables. | Sesión 10 finalizada |
+| **11** | Formularios y Validación | ✅ **COMPLETADO** | Validación en tiempo real (regex email, contraseñas con medidor de fuerza, contadores de caracteres), errores inline y campos complejos. | Pasar a Sesión 12 |
+| **12** | Deploy Backend en Render | ⏳ **SIGUIENTE** | Preparación de `Procfile`, `requirements.txt` con Gunicorn, configuración de servicio Web en Render y variables de entorno. | Despliegue en la nube |
 | **13** | Deploy Frontend en Cloudflare | 🔜 Pendiente | Build de producción (`npm run build`), configuración en Cloudflare Pages, conexión con API de Render. | Requiere cuenta Cloudflare |
 | **14** | Integración Final & Pruebas | 🔜 Pendiente | Pruebas de integración E2E, documentación final, revisión de rúbrica y entrega académica. | - |
+
 
 
 
@@ -213,12 +214,39 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 
 ---
 
-### ⏳ Próxima Sesión: Sesión 11 - Formularios y Validación
+### ✅ Sesión 11: Formularios Avanzados y Validación (Experiencia de Usuario Impecable)
+- **Objetivo**: Desarrollar formularios controlados con validación en tiempo real, mensajes de error inline accesibles, control de estados de carga y campos complejos.
+- **Acciones Realizadas**:
+  1. **Componente Reutilizable `Input.jsx`**:
+     - Soporte para mensajes de error inline con icono `AlertCircle`.
+     - Eventos `onBlur` y `onFocus` para validación inmediata al perder el foco (patrón *touched*).
+     - Textos de ayuda (`helperText`), iconos prefijo (`Mail`, `Lock`, `User`, `ShieldCheck`) y deshabilitación durante envíos.
+  2. **Formulario de Inicio de Sesión (`Login.jsx`)**:
+     - Validación con regex de correo electrónico y longitud mínima de contraseña (6 caracteres).
+     - Errores inline específicos por campo y contenedor para errores del servidor/API.
+     - Indicador interactivo de carga ("Validando credenciales...") con icono animado `RefreshCw`.
+  3. **Formulario de Registro (`Register.jsx`)**:
+     - Validación en vivo de nombre (mínimo 3 caracteres), correo electrónico, contraseña y coincidencia con `confirmPassword`.
+     - **Medidor de fortaleza de contraseña** minimalista y monocromático (3 niveles: Débil, Aceptable, Fuerte) con barras reactivas.
+     - Selector de roles (`usuario` o `admin`).
+     - Retroalimentación mediante notificaciones Toast al completar el registro.
+  4. **Formulario de Tareas (`TaskModal.jsx`)**:
+     - Contadores de longitud en tiempo real (`titulo`: 0/100, `descripcion`: 0/300) con recorte seguro.
+     - **Campo complejo**: Selector de prioridad mediante tarjetas interactivas con badges, iconos `Flag` y descripciones explicativas.
+     - Selector descriptivo de estados y validación en tiempo real.
+  5. **Validación y Compilación**:
+     - `npm.cmd run build` exitoso (**1.28s**).
+     - 20/20 pruebas unitarias del backend aprobadas (**0.062s**).
+
+---
+
+### ⏳ Próxima Sesión: Sesión 12 - Deploy Backend en Render
 - **Qué haremos**:
-  1. Implementar validación exhaustiva tanto en cliente como en backend para todos los formularios (Login, Registro, Creación/Edición de Tareas).
-  2. Manejar mensajes de error específicos por campo y resguardo ante inputs inválidos o maliciosos.
-  3. Integrar retroalimentación con estados visuales de foco/error y notificaciones toast enriquecidas.
+  1. Preparar la configuración de producción del backend: `Procfile`, servidor WSGI de grado de producción (`gunicorn`), y `requirements.txt` actualizado.
+  2. Configurar la factoría de Flask para leer variables de entorno de producción (`PORT`, `RENDER`, `SUPABASE_URL`, etc.).
+  3. Documentar y guiar el despliegue del servicio Web en [Render](https://render.com) enlazado al repositorio de GitHub.
 - **Lo que tú necesitas hacer**:
-  - Ninguna acción externa requerida. Todo el desarrollo se realizará y validará localmente.
+  - Tener una cuenta activa en [Render](https://render.com) (puedes ingresar rápidamente usando tu cuenta de GitHub `Charles2810`).
+
 
 
