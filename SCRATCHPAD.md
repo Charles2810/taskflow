@@ -23,7 +23,7 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 - [x] **Sesión 01**: Tener Git instalado y cuenta de GitHub configurada (`Charles2810`).
 - [x] **Sesión 04**: Crear proyecto en [Supabase](https://supabase.com), configurar `.env` y ejecutar script SQL (✅ Completado y verificado en vivo).
 - [x] **Sesión 12**: Conectar cuenta en [Render](https://render.com) para alojar la API Flask de backend (✅ Desplegado y verificado en vivo en `https://taskflow-zt2r.onrender.com`).
-- [x] **Sesión 13**: Conectar cuenta en [Cloudflare Pages](https://pages.cloudflare.com) para alojar el frontend React (Archivos listos: `public/_redirects`, `.env.example` y guía `docs/deploy/cloudflare.md`).
+- [x] **Sesión 13**: Conectar cuenta en [Cloudflare Pages](https://pages.cloudflare.com) para alojar el frontend React (✅ Desplegado y verificado en vivo en `https://taskflow-bco.pages.dev`).
 
 ---
 
@@ -43,7 +43,7 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 | **10** | Diseño Responsive + Tailwind | ✅ **COMPLETADO** | Adaptabilidad mobile-first en móviles, tablets y escritorio, menú hamburguesa interactivo en `Navbar.jsx`, métricas adaptativas y tablas scrolleables. | Sesión 10 finalizada |
 | **11** | Formularios y Validación | ✅ **COMPLETADO** | Validación en tiempo real (regex email, contraseñas con medidor de fuerza, contadores de caracteres), errores inline y campos complejos. | Sesión 11 finalizada |
 | **12** | Deploy Backend en Render | ✅ **COMPLETADO** | Archivo `Procfile`, servidor WSGI `gunicorn`, `render.yaml` IaC, puerto dinámico en `run.py` y API en vivo en Render (`taskflow-zt2r.onrender.com`). | Sesión 12 finalizada |
-| **13** | Deploy Frontend en Cloudflare | ✅ **COMPLETADO** | Build de producción (`dist/`), regla SPA `_redirects`, variables `VITE_API_URL` y guía completa `docs/deploy/cloudflare.md`. | Pasar a Sesión 14 |
+| **13** | Deploy Frontend en Cloudflare | ✅ **COMPLETADO** | Build de producción (`dist/`), regla SPA `_redirects`, variables `VITE_API_URL` y frontend en vivo en Cloudflare Pages (`https://taskflow-bco.pages.dev`). | Pasar a Sesión 14 |
 | **14** | Integración Final & Pruebas | ⏳ **SIGUIENTE** | Pruebas de integración E2E, documentación final, checklist de rúbrica y entrega académica. | Cierre del proyecto |
 
 

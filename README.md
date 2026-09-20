@@ -37,9 +37,10 @@ taskflow/
 
 ## 🌐 Despliegues en Vivo (Producción)
 
+- **Frontend (Cloudflare Pages)**: [`https://taskflow-bco.pages.dev`](https://taskflow-bco.pages.dev)
 - **Backend API (Render)**: [`https://taskflow-zt2r.onrender.com`](https://taskflow-zt2r.onrender.com)
-- **Base de Datos (Supabase)**: PostgreSQL alojado en la nube
-- **Frontend (Cloudflare Pages)**: Listo para despliegue continuo desde rama `main`
+- **Base de Datos (Supabase)**: PostgreSQL alojado en la nube con RLS
+
 
 ---
 
