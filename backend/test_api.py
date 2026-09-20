@@ -1,93 +1,177 @@
 """
-Pruebas automatizadas para la API REST de TaskFlow (Sesión 02)
-Verifica los endpoints:
-- GET /api/health
-- GET /api/users
-- GET /api/users/<id> (200 y 404)
-- POST /api/users (201 y 400 por validación)
-- PUT /api/users/<id> (200 y 404)
-- DELETE /api/users/<id> (200 y 404)
+Suite de Pruebas Automatizadas - TaskFlow API (Sesión 03 - Arquitectura MVC)
+Valida:
+- Endpoints de salud y catálogo
+- CRUD de Usuarios y validaciones
+- CRUD de Tareas y relación con Usuarios
+- Validaciones de negocio y transiciones de estado
+- Consulta de tareas por usuario
 """
 
 import unittest
 from app import create_app
+from app.models.user_model import UserModel
+from app.models.task_model import TaskModel
 
 
-class TaskFlowAPITestCase(unittest.TestCase):
+class TaskFlowMVCTestCase(unittest.TestCase):
     def setUp(self):
+        # Resetear datos en memoria antes de cada test para aislamiento total
+        UserModel.reset()
+        TaskModel.reset()
         self.app = create_app()
         self.client = self.app.test_client()
 
+    # --- Pruebas Generales ---
     def test_health_check(self):
-        response = self.client.get("/api/health")
-        self.assertEqual(response.status_code, 200)
-        data = response.get_json()
+        res = self.client.get("/api/health")
+        self.assertEqual(res.status_code, 200)
+        data = res.get_json()
         self.assertEqual(data["status"], "ok")
-        self.assertIn("TaskFlow", data["message"])
+        self.assertEqual(data["architecture"], "MVC")
 
+    def test_index_catalogo(self):
+        res = self.client.get("/")
+        self.assertEqual(res.status_code, 200)
+        data = res.get_json()
+        self.assertIn("endpoints", data)
+        self.assertIn("GET /api/tasks", data["endpoints"])
+
+    # --- Pruebas CRUD de Usuarios ---
     def test_get_users(self):
-        response = self.client.get("/api/users")
-        self.assertEqual(response.status_code, 200)
-        data = response.get_json()
-        self.assertIsInstance(data, list)
-        self.assertGreaterEqual(len(data), 2)
+        res = self.client.get("/api/users")
+        self.assertEqual(res.status_code, 200)
+        data = res.get_json()
+        self.assertEqual(len(data), 2)
 
     def test_get_user_by_id(self):
-        # Usuario existente
-        response = self.client.get("/api/users/1")
-        self.assertEqual(response.status_code, 200)
-        data = response.get_json()
-        self.assertEqual(data["id"], 1)
-        self.assertEqual(data["nombre"], "Admin")
+        res = self.client.get("/api/users/1")
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.get_json()["nombre"], "Admin")
 
-        # Usuario inexistente
-        response_404 = self.client.get("/api/users/999")
-        self.assertEqual(response_404.status_code, 404)
+        res_404 = self.client.get("/api/users/999")
+        self.assertEqual(res_404.status_code, 404)
 
-    def test_create_user_success(self):
-        payload = {
-            "nombre": "Carlos Mendoza",
-            "email": "carlos@taskflow.com",
-            "rol": "desarrollador"
-        }
-        response = self.client.post("/api/users", json=payload)
-        self.assertEqual(response.status_code, 201)
-        data = response.get_json()
-        self.assertEqual(data["nombre"], "Carlos Mendoza")
-        self.assertEqual(data["email"], "carlos@taskflow.com")
-        self.assertIn("id", data)
+    def test_create_user(self):
+        payload = {"nombre": "Ana Gómez", "email": "ana@taskflow.com", "rol": "usuario"}
+        res = self.client.post("/api/users", json=payload)
+        self.assertEqual(res.status_code, 201)
+        data = res.get_json()
+        self.assertEqual(data["nombre"], "Ana Gómez")
+        self.assertEqual(data["id"], 3)
 
-    def test_create_user_validation_error(self):
-        # Falta campo obligatorio 'nombre'
-        response = self.client.post("/api/users", json={"email": "noname@taskflow.com"})
-        self.assertEqual(response.status_code, 400)
-        data = response.get_json()
-        self.assertIn("error", data)
+        # Validación campo obligatorio
+        res_err = self.client.post("/api/users", json={"email": "sin_nombre@test.com"})
+        self.assertEqual(res_err.status_code, 400)
+
+        # Validación email duplicado
+        res_dup = self.client.post("/api/users", json=payload)
+        self.assertEqual(res_dup.status_code, 400)
 
     def test_update_user(self):
-        # Actualizar usuario existente
-        payload = {"nombre": "Admin Actualizado", "rol": "superadmin"}
-        response = self.client.put("/api/users/1", json=payload)
-        self.assertEqual(response.status_code, 200)
-        data = response.get_json()
-        self.assertEqual(data["nombre"], "Admin Actualizado")
+        res = self.client.put("/api/users/1", json={"nombre": "Super Administrador"})
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.get_json()["nombre"], "Super Administrador")
 
-        # Actualizar usuario inexistente
-        response_404 = self.client.put("/api/users/999", json=payload)
-        self.assertEqual(response_404.status_code, 404)
+        res_404 = self.client.put("/api/users/999", json={"nombre": "Nadie"})
+        self.assertEqual(res_404.status_code, 404)
 
     def test_delete_user(self):
-        # Eliminar usuario existente
-        response = self.client.delete("/api/users/2")
-        self.assertEqual(response.status_code, 200)
+        res = self.client.delete("/api/users/2")
+        self.assertEqual(res.status_code, 200)
 
-        # Verificar que ya no existe
-        get_deleted = self.client.get("/api/users/2")
-        self.assertEqual(get_deleted.status_code, 404)
+        # Verificar 404 tras eliminación
+        res_verif = self.client.get("/api/users/2")
+        self.assertEqual(res_verif.status_code, 404)
 
-        # Eliminar usuario inexistente
-        response_404 = self.client.delete("/api/users/999")
-        self.assertEqual(response_404.status_code, 404)
+    # --- Pruebas CRUD de Tareas ---
+    def test_list_tasks(self):
+        res = self.client.get("/api/tasks")
+        self.assertEqual(res.status_code, 200)
+        data = res.get_json()
+        self.assertEqual(len(data), 3)
+
+    def test_filter_tasks_by_user_and_status(self):
+        # Filtrar por user_id
+        res_user = self.client.get("/api/tasks?user_id=1")
+        self.assertEqual(res_user.status_code, 200)
+        self.assertEqual(len(res_user.get_json()), 2)
+
+        # Filtrar por estado
+        res_estado = self.client.get("/api/tasks?estado=completada")
+        self.assertEqual(res_estado.status_code, 200)
+        self.assertEqual(len(res_estado.get_json()), 1)
+
+    def test_get_task_by_id(self):
+        res = self.client.get("/api/tasks/1")
+        self.assertEqual(res.status_code, 200)
+        data = res.get_json()
+        self.assertEqual(data["titulo"], "Configurar entorno y Git")
+        self.assertIn("usuario", data)
+        self.assertEqual(data["usuario"]["nombre"], "Admin")
+
+        res_404 = self.client.get("/api/tasks/999")
+        self.assertEqual(res_404.status_code, 404)
+
+    def test_create_task_success(self):
+        payload = {
+            "user_id": 1,
+            "titulo": "Crear tests unitarios para MVC",
+            "descripcion": "Verificar cobertura de Blueprints y modelos",
+            "prioridad": "alta",
+            "estado": "pendiente"
+        }
+        res = self.client.post("/api/tasks", json=payload)
+        self.assertEqual(res.status_code, 201)
+        data = res.get_json()
+        self.assertEqual(data["titulo"], payload["titulo"])
+        self.assertEqual(data["user_id"], 1)
+        self.assertEqual(data["id"], 4)
+
+    def test_create_task_validations(self):
+        # Título faltante
+        res1 = self.client.post("/api/tasks", json={"user_id": 1})
+        self.assertEqual(res1.status_code, 400)
+
+        # Usuario inexistente
+        res2 = self.client.post("/api/tasks", json={"user_id": 999, "titulo": "Tarea huerfana"})
+        self.assertEqual(res2.status_code, 404)
+
+        # Estado inválido
+        res3 = self.client.post("/api/tasks", json={
+            "user_id": 1,
+            "titulo": "Estado raro",
+            "estado": "invalido"
+        })
+        self.assertEqual(res3.status_code, 400)
+
+    def test_update_task_and_state_transition(self):
+        # Tarea 3 está en 'pendiente' -> transicionar a 'en_progreso' es válido
+        res = self.client.put("/api/tasks/3", json={"estado": "en_progreso", "titulo": "Diseñar esquema Supabase V2"})
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.get_json()["estado"], "en_progreso")
+
+        # Intentar reasignar a un usuario inexistente debe fallar
+        res_bad_user = self.client.put("/api/tasks/3", json={"user_id": 999})
+        self.assertEqual(res_bad_user.status_code, 404)
+
+    def test_delete_task(self):
+        res = self.client.delete("/api/tasks/1")
+        self.assertEqual(res.status_code, 200)
+
+        res_check = self.client.get("/api/tasks/1")
+        self.assertEqual(res_check.status_code, 404)
+
+    # --- Relación Usuario -> Tareas ---
+    def test_get_user_tasks(self):
+        res = self.client.get("/api/users/1/tasks")
+        self.assertEqual(res.status_code, 200)
+        data = res.get_json()
+        self.assertEqual(data["user"]["nombre"], "Admin")
+        self.assertEqual(len(data["tasks"]), 2)
+
+        res_404 = self.client.get("/api/users/999/tasks")
+        self.assertEqual(res_404.status_code, 404)
 
 
 if __name__ == "__main__":

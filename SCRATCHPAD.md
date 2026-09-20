@@ -35,9 +35,9 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 | # | Sesión | Estado | Entregables Clave | Próxima Acción |
 |---|---|:---:|---|---|
 | **01** | Entorno + Git + GitHub | ✅ **COMPLETADO** | Entorno configurado (Python 3.12, Node 24, Git), Repo GitHub creado, Estructura base, `.gitignore`, `README.md`, `SCRATCHPAD.md`. | Sesión 01 finalizada |
-| **02** | Python + Flask: Primera API | ✅ **COMPLETADO** | Entorno virtual `.venv`, `requirements.txt`, API Flask con endpoints REST completos (`GET`, `POST`, `PUT`, `DELETE`), CORS y suite de pruebas unitarias (`test_api.py`). | Pasar a Sesión 03 |
-| **03** | CRUD y Estructura MVC | ⏳ **SIGUIENTE** | Reorganizar backend en arquitectura MVC (Modelos, Vistas/Rutas, Controladores) y separar la lógica de negocio y datos. | Iniciar refactorización MVC |
-| **04** | Supabase & Base de Datos | 🔜 Pendiente | Tablas SQL en Supabase (`users`, `tasks`), migración e integración con SDK Supabase en Flask. | Requiere cuenta Supabase |
+| **02** | Python + Flask: Primera API | ✅ **COMPLETADO** | Entorno virtual `.venv`, `requirements.txt`, API Flask con endpoints REST completos (`GET`, `POST`, `PUT`, `DELETE`), CORS y suite de pruebas unitarias (`test_api.py`). | Sesión 02 finalizada |
+| **03** | CRUD y Estructura MVC | ✅ **COMPLETADO** | Refactorización a MVC: `models/`, `controllers/`, `routes/`, Blueprints modulares (`users_bp`, `tasks_bp`), CRUD completo de Tareas y 15 pruebas unitarias. | Pasar a Sesión 04 |
+| **04** | Supabase & Base de Datos | ⏳ **SIGUIENTE** | Migración de datos en memoria a PostgreSQL real en la nube con Supabase, esquemas SQL (`users`, `tasks`), RLS y SDK `supabase-py`. | **Crear proyecto en Supabase** |
 | **05** | Autenticación y Autorización | 🔜 Pendiente | JWT (JSON Web Tokens), endpoints `/auth/register` y `/auth/login`, decoradores `@token_required`. | - |
 | **06** | React + Vite Setup | 🔜 Pendiente | Inicialización de SPA en `frontend/` con Vite, configuración de scripts y estructura de componentes. | - |
 | **07** | React Router y Navegación | 🔜 Pendiente | Configuración de rutas (`/`, `/login`, `/register`, `/dashboard`), layouts y páginas protegidas. | - |
@@ -86,24 +86,41 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
   2. Implementación de la API:
      - Factory pattern `create_app()` en `backend/app/__init__.py`.
      - Habilitación de CORS para comunicación con el frontend.
-     - `GET /`: Información general de la API y catálogo de endpoints.
-     - `GET /api/health`: Health-check retornando status 200 y confirmación de servicio online.
-     - `GET /api/users`: Listado completo de usuarios en formato JSON.
-     - `GET /api/users/<id>`: Búsqueda de usuario específico (200 o 404).
-     - `POST /api/users`: Creación con validación de campo requerido `nombre` (201 o 400).
-     - `PUT /api/users/<id>`: Actualización de datos de usuario con validación (200 o 404).
-     - `DELETE /api/users/<id>`: Eliminación de usuario (200 o 404).
+     - Endpoints CRUD de usuarios (`GET`, `POST`, `PUT`, `DELETE`).
   3. Pruebas y Validación:
-     - Suite automatizada `backend/test_api.py` con `unittest`.
-     - 7/7 pruebas unitarias ejecutadas y aprobadas (cobertura total de endpoints y códigos 200, 201, 400, 404).
+     - Suite automatizada con 7 pruebas unitarias aprobadas.
 
 ---
 
-### ⏳ Próxima Sesión: Sesión 03 - CRUD y Estructura MVC
+### ✅ Sesión 03: CRUD Completo + Estructura MVC
+- **Objetivo**: Organizar profesionalmente el código backend bajo la arquitectura MVC (Model-View-Controller) y construir el CRUD completo de Tareas con validaciones y relaciones.
+- **Acciones Realizadas**:
+  1. Arquitectura MVC implementada en `backend/app/`:
+     - **Modelos** (`app/models/`):
+       - `user_model.py`: `UserModel` con métodos CRUD, búsqueda por ID y por email, y reset.
+       - `task_model.py`: `TaskModel` con relación foránea `user_id`, prioridades (`baja`, `media`, `alta`), estados (`pendiente`, `en_progreso`, `completada`) y máquina de estados para transiciones permitidas.
+     - **Controladores** (`app/controllers/`):
+       - `user_controller.py`: Lógica de negocio, validaciones de emails únicos, nombres no vacíos, cascada de tareas al eliminar usuario y endpoint `get_user_tasks`.
+       - `task_controller.py`: Validación de existencia de usuario asignado, validación de título obligatorio, control estricto de transiciones de estado y respuestas enriquecidas con datos del usuario.
+     - **Rutas y Blueprints** (`app/routes/`):
+       - `user_routes.py`: Blueprint `users_bp` registrado con prefijo `/api`.
+       - `task_routes.py`: Blueprint `tasks_bp` registrado con prefijo `/api`.
+     - **Factoría Principal** (`app/__init__.py`): Registro modular de Blueprints, habilitación global de CORS, endpoint raíz de documentación dinámica de rutas y health-check.
+  2. Pruebas Automatizadas:
+     - Suite `backend/test_api.py` ampliada a **15 pruebas unitarias**.
+     - Cobertura: Health check, catálogo, CRUD completo de usuarios, validación de email duplicado, CRUD completo de tareas, filtros por `user_id` y por `estado`, validación de transiciones de estado, cascada y relación usuario-tareas.
+     - **Resultado**: 15/15 tests aprobados en 0.045s.
+
+---
+
+### ⏳ Próxima Sesión: Sesión 04 - Supabase: Base de Datos en la Nube
 - **Qué haremos**:
-  1. Reorganizar la aplicación Flask en la arquitectura MVC (Model-View-Controller).
-  2. Crear carpetas y módulos: `backend/app/models/`, `backend/app/controllers/`, `backend/app/routes/`.
-  3. Migrar las rutas y lógica de negocio a Blueprints de Flask.
-  4. Extender el modelo de datos para incluir Tareas (`tasks`), además de usuarios.
-- **Lo que tú necesitas hacer**:
-  - Ninguna acción externa requerida para la Sesión 03. Continuaremos trabajando en el backend localmente.
+  1. Conectar Flask con PostgreSQL en la nube a través del SDK `supabase-py`.
+  2. Crear los scripts de migración SQL para las tablas `users` y `tasks` con claves foráneas, tipos UUID y timestamps.
+  3. Reemplazar la persistencia en memoria de los modelos por operaciones directas contra Supabase.
+  4. Configurar variables de entorno seguras (`SUPABASE_URL`, `SUPABASE_KEY`).
+- **🔔 LO QUE TÚ TIENES QUE HACER**:
+  - Ingresar a [https://supabase.com](https://supabase.com) y registrarte (con tu cuenta de GitHub o email).
+  - Crear un nuevo proyecto gratuito (por ejemplo llamado `taskflow-db`).
+  - Obtener tu **Project URL** y tu **anon public API Key** desde: *Project Settings > API*.
+  - (Te guiaremos paso a paso en cuanto iniciemos la sesión).
