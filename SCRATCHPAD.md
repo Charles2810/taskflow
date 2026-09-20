@@ -22,9 +22,8 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 
 - [x] **Sesión 01**: Tener Git instalado y cuenta de GitHub configurada (`Charles2810`).
 - [x] **Sesión 04**: Crear proyecto en [Supabase](https://supabase.com), configurar `.env` y ejecutar script SQL (✅ Completado y verificado en vivo).
-- [x] **Sesión 12**: Conectar cuenta en [Render](https://render.com) para alojar la API Flask de backend (Archivos listos: `Procfile`, `render.yaml`, `gunicorn` y guía `docs/deploy/render.md`).
-- [ ] **Sesión 13**: Crear cuenta en [Cloudflare Pages](https://pages.cloudflare.com) para alojar el frontend React.
-  - *Se requerirá*: Conectar tu repositorio de GitHub a Cloudflare Pages.
+- [x] **Sesión 12**: Conectar cuenta en [Render](https://render.com) para alojar la API Flask de backend (✅ Desplegado y verificado en vivo en `https://taskflow-zt2r.onrender.com`).
+- [x] **Sesión 13**: Conectar cuenta en [Cloudflare Pages](https://pages.cloudflare.com) para alojar el frontend React (Archivos listos: `public/_redirects`, `.env.example` y guía `docs/deploy/cloudflare.md`).
 
 ---
 
@@ -43,9 +42,10 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 | **09** | Dashboard CRUD en React | ✅ **COMPLETADO** | Panel con métricas y barra de progreso, tabla/tarjetas de tareas, filtros dinámicos, modales controlados de crear/editar/eliminar y toasts de feedback. | Sesión 09 finalizada |
 | **10** | Diseño Responsive + Tailwind | ✅ **COMPLETADO** | Adaptabilidad mobile-first en móviles, tablets y escritorio, menú hamburguesa interactivo en `Navbar.jsx`, métricas adaptativas y tablas scrolleables. | Sesión 10 finalizada |
 | **11** | Formularios y Validación | ✅ **COMPLETADO** | Validación en tiempo real (regex email, contraseñas con medidor de fuerza, contadores de caracteres), errores inline y campos complejos. | Sesión 11 finalizada |
-| **12** | Deploy Backend en Render | ✅ **COMPLETADO** | Archivo `Procfile`, servidor WSGI `gunicorn`, `render.yaml` IaC, puerto dinámico en `run.py` y guía completa `docs/deploy/render.md`. | Pasar a Sesión 13 |
-| **13** | Deploy Frontend en Cloudflare | ⏳ **SIGUIENTE** | Build de producción (`npm run build`), configuración en Cloudflare Pages, variables `VITE_API_URL` y conexión con Render. | Despliegue en Cloudflare |
-| **14** | Integración Final & Pruebas | 🔜 Pendiente | Pruebas de integración E2E, documentación final, revisión de rúbrica y entrega académica. | - |
+| **12** | Deploy Backend en Render | ✅ **COMPLETADO** | Archivo `Procfile`, servidor WSGI `gunicorn`, `render.yaml` IaC, puerto dinámico en `run.py` y API en vivo en Render (`taskflow-zt2r.onrender.com`). | Sesión 12 finalizada |
+| **13** | Deploy Frontend en Cloudflare | ✅ **COMPLETADO** | Build de producción (`dist/`), regla SPA `_redirects`, variables `VITE_API_URL` y guía completa `docs/deploy/cloudflare.md`. | Pasar a Sesión 14 |
+| **14** | Integración Final & Pruebas | ⏳ **SIGUIENTE** | Pruebas de integración E2E, documentación final, checklist de rúbrica y entrega académica. | Cierre del proyecto |
+
 
 
 
@@ -261,17 +261,31 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
      - 20/20 pruebas unitarias aprobadas (**0.058s**).
      - Frontend build validado exitosamente en **1.30s**.
 
+---
+
+### ✅ Sesión 13: Deploy Frontend en Cloudflare Pages (CDN Global y Enrutamiento SPA)
+- **Objetivo**: Publicar la aplicación frontend React + Vite en la red perimetral de Cloudflare Pages, configurando variables de entorno seguras para conectar con la API en Render y reglas de enrutamiento SPA.
+- **Acciones Realizadas**:
+  1. **Regla de Enrutamiento SPA (`frontend/public/_redirects`)**:
+     - Creada regla `/* /index.html 200` para evitar errores 404 al recargar rutas profundas de React Router (`/dashboard`, `/login`, `/register`).
+     - Verificada su copia automática en `frontend/dist/_redirects` durante `vite build`.
+  2. **Normalización del Cliente HTTP (`frontend/src/services/api.js`)**:
+     - Sanitización de URL base con `API_BASE_URL.replace(/\/+$/, '')` para prevenir errores de doble barra slash al concatenar rutas con variables de entorno externas.
+  3. **Plantilla de Entorno de Producción (`frontend/.env.example`)**:
+     - Variable documentada: `VITE_API_URL=https://taskflow-zt2r.onrender.com/api`.
+  4. **Guía Paso a Paso de Publicación (`docs/deploy/cloudflare.md`)**:
+     - Guía detallada con parámetros de Cloudflare Pages: Root directory `frontend`, Build command `npm run build`, Output `dist`, y variable `VITE_API_URL`.
+  5. **Validación de Compilación**:
+     - `npm.cmd run build` exitoso (**1.29s**), bundle de producción limpio y optimizado con gzip.
+     - 20/20 pruebas unitarias del backend aprobadas (**0.058s**).
 
 ---
 
-### ⏳ Próxima Sesión: Sesión 13 - Deploy Frontend en Cloudflare Pages
+### ⏳ Próxima Sesión: Sesión 14 - Integración Final & Pruebas
 - **Qué haremos**:
-  1. Preparar la configuración de producción del frontend: script de compilación `npm run build`, enrutamiento SPA con reglas para React Router (`_redirects` o `wrangler.toml`).
-  2. Configurar variable de entorno `VITE_API_URL` apuntando a la API pública de Render para consumo en producción.
-  3. Documentar y guiar el despliegue del frontend en [Cloudflare Pages](https://pages.cloudflare.com) conectado al repositorio de GitHub.
+  1. Pruebas de integración End-to-End (E2E) entre el Frontend en Cloudflare Pages y el Backend en Render conectado a Supabase.
+  2. Verificación de flujos completos: Registro de usuario -> Login con JWT -> Carga de tareas -> Creación -> Edición -> Filtrado -> Eliminación -> Logout.
+  3. Actualización final de la documentación general del proyecto (`README.md`, manual de entrega).
+  4. Verificación de cumplimiento contra la rúbrica de evaluación académica de la materia.
 - **Lo que tú necesitas hacer**:
-  - Tener una cuenta activa en [Cloudflare Pages](https://pages.cloudflare.com) (puedes registrarte con tu cuenta de GitHub o email personal).
-
-
-
-
+  - Enlazar tu repositorio `Charles2810/taskflow` en [Cloudflare Pages](https://pages.cloudflare.com) siguiendo `docs/deploy/cloudflare.md` y compartirnos la URL pública `pages.dev` asignada.

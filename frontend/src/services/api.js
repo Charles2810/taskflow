@@ -24,7 +24,10 @@ async function apiRequest(endpoint, options = {}) {
     headers,
   };
 
-  const url = `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+  const cleanBase = API_BASE_URL.replace(/\/+$/, '');
+  const cleanPath = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = `${cleanBase}${cleanPath}`;
+
 
   try {
     const response = await fetch(url, config);

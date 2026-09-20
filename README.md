@@ -35,6 +35,12 @@ taskflow/
 - **Despliegue Frontend**: [Cloudflare Pages](https://pages.cloudflare.com)
 - **Control de Versiones**: Git & GitHub
 
+## 🌐 Despliegues en Vivo (Producción)
+
+- **Backend API (Render)**: [`https://taskflow-zt2r.onrender.com`](https://taskflow-zt2r.onrender.com)
+- **Base de Datos (Supabase)**: PostgreSQL alojado en la nube
+- **Frontend (Cloudflare Pages)**: Listo para despliegue continuo desde rama `main`
+
 ---
 
 ## 🚦 Roadmap de Sesiones
@@ -42,22 +48,23 @@ taskflow/
 | Sesión | Tema | Estado |
 |---|---|:---:|
 | **01** | Entorno de Desarrollo, Git, GitHub y Estructura Base | ✅ Completado |
-| **02** | Python + Flask: Creación de la Primera API REST | ⏳ Próxima sesión |
-| **03** | Estructura MVC y Operaciones CRUD | 🔜 Pendiente |
-| **04** | Base de Datos PostgreSQL con Supabase | 🔜 Pendiente |
-| **05** | Autenticación y Autorización (JWT) | 🔜 Pendiente |
-| **06** | Setup de Frontend con React + Vite | 🔜 Pendiente |
-| **07** | React Router y Navegación SPA | 🔜 Pendiente |
-| **08** | Consumo de API y Manejo de Estado | 🔜 Pendiente |
-| **09** | Dashboard y Operaciones CRUD en React | 🔜 Pendiente |
-| **10** | Diseño Responsivo con TailwindCSS | 🔜 Pendiente |
-| **11** | Formularios y Validación en el Frontend | 🔜 Pendiente |
-| **12** | Despliegue del Backend en Render | 🔜 Pendiente |
-| **13** | Despliegue del Frontend en Cloudflare Pages | 🔜 Pendiente |
-| **14** | Integración Final, Pruebas End-to-End y Entrega | 🔜 Pendiente |
+| **02** | Python + Flask: Creación de la Primera API REST | ✅ Completado |
+| **03** | Estructura MVC y Operaciones CRUD | ✅ Completado |
+| **04** | Base de Datos PostgreSQL con Supabase | ✅ Completado |
+| **05** | Autenticación y Autorización (JWT) | ✅ Completado |
+| **06** | Setup de Frontend con React + Vite | ✅ Completado |
+| **07** | React Router y Navegación SPA | ✅ Completado |
+| **08** | Consumo de API y Manejo de Estado | ✅ Completado |
+| **09** | Dashboard y Operaciones CRUD en React | ✅ Completado |
+| **10** | Diseño Responsivo con TailwindCSS | ✅ Completado |
+| **11** | Formularios y Validación en el Frontend | ✅ Completado |
+| **12** | Despliegue del Backend en Render | ✅ Completado |
+| **13** | Despliegue del Frontend en Cloudflare Pages | ✅ Completado |
+| **14** | Integración Final, Pruebas End-to-End y Entrega | ⏳ Siguiente sesión |
 
 ---
 
 ## 📖 Instrucciones de Uso
 
-Para ver el progreso detallado y las tareas pendientes que debes realizar en cada sesión, consulta el archivo [SCRATCHPAD.md](SCRATCHPAD.md).
+Para ver el progreso detallado, instrucciones paso a paso y las tareas pendientes que debes realizar en cada sesión, consulta el archivo [SCRATCHPAD.md](SCRATCHPAD.md).
+
