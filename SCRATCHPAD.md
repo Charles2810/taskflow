@@ -40,13 +40,14 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 | **05** | Autenticación y Autorización | ✅ **COMPLETADO** | Módulo de Auth JWT / Supabase, endpoints `/auth/register`, `/auth/login`, `/auth/me`, decoradores `@token_required` y `@admin_required`, 20 pruebas unitarias aprobadas. | Pasar a Sesión 06 |
 | **06** | React + Vite Setup | ✅ **COMPLETADO** | Configuración de React 18 con Vite, TailwindCSS, PostCSS, componentes base (`Button`, `Card`, `Input`, `Navbar`, `Badge`) y estado reactivo con `useState`. | Pasar a Sesión 07 |
 | **07** | React Router y Navegación | ✅ **COMPLETADO** | `react-router-dom` configurado, rutas públicas (`/`, `/login`, `/register`), ruta protegida (`/dashboard`), `MainLayout`, 404 `NotFound` y enlaces fluidos. | Sesión 07 finalizada |
-| **08** | Consumo de API y Estado | ✅ **COMPLETADO** | Conexión Frontend-Backend con `fetch`, `useEffect`, manejo de estados `loading`/`error`, cliente `api.js` y `AuthContext` global con persistencia. | Pasar a Sesión 09 |
-| **09** | Dashboard CRUD en React | ⏳ **SIGUIENTE** | Dashboard interactivo completo: creación, edición, filtrado avanzado por estado/prioridad, modal interactivo y contadores en vivo. | Construir CRUD interactivo |
-| **10** | Diseño Responsive + Tailwind | 🔜 Pendiente | Estilos modernos, diseño móvil/tablet/desktop, temas y feedback visual enriquecido. | - |
+| **08** | Consumo de API y Estado | ✅ **COMPLETADO** | Conexión Frontend-Backend con `fetch`, `useEffect`, manejo de estados `loading`/`error`, cliente `api.js` y `AuthContext` global con persistencia. | Sesión 08 finalizada |
+| **09** | Dashboard CRUD en React | ✅ **COMPLETADO** | Panel con métricas y barra de progreso, tabla/tarjetas de tareas, filtros dinámicos, modales controlados de crear/editar/eliminar y toasts de feedback. | Pasar a Sesión 10 |
+| **10** | Diseño Responsive + Tailwind | ⏳ **SIGUIENTE** | Adaptabilidad completa en móviles, tablets y monitores ultra-wide, menú responsive (drawer/hamburguesa) y micro-interacciones. | Optimizar diseño responsive |
 | **11** | Formularios y Validación | 🔜 Pendiente | Validación de formularios, manejo de errores de backend y notificaciones toast de éxito/alerta. | - |
 | **12** | Deploy Backend en Render | 🔜 Pendiente | Archivo `Procfile` / `render.yaml`, variables de entorno en Render, API pública en producción. | Requiere cuenta Render |
 | **13** | Deploy Frontend en Cloudflare | 🔜 Pendiente | Build de producción (`npm run build`), configuración en Cloudflare Pages, conexión con API de Render. | Requiere cuenta Cloudflare |
 | **14** | Integración Final & Pruebas | 🔜 Pendiente | Pruebas de integración E2E, documentación final, revisión de rúbrica y entrega académica. | - |
+
 
 ---
 
@@ -158,11 +159,43 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 
 ---
 
-### ⏳ Próxima Sesión: Sesión 09 - Dashboard y CRUD en React
+### ✅ Sesión 09: Dashboard y CRUD en React (Panel de Administración Completo)
+- **Objetivo**: Diseñar e implementar un panel de administración completo con métricas en tiempo real, tabla y tarjetas de tareas, formularios controlados para crear y editar, confirmación de eliminación y feedback visual con notificaciones Toast.
+- **Acciones Realizadas**:
+  1. **Sistema de Feedback Visual con Toasts (`frontend/src/context/ToastContext.jsx`)**:
+     - Creado `ToastContext`, `ToastProvider` y hook `useToast()` con métodos `toast.success()`, `toast.error()` y `toast.info()`.
+     - Renderizado de notificaciones flotantes con micro-animaciones, auto-dismiss (3.5s) y diseño monocromático minimalista.
+     - Integrado globalmente en `App.jsx`.
+  2. **Modal Controlado con Validación (`frontend/src/components/TaskModal.jsx`)**:
+     - Formulario controlado reutilizable tanto para **crear** nueva tarea como para **editar** tareas existentes.
+     - Validación en tiempo real: título obligatorio (mínimo 3 caracteres), descripción opcional, selectores para prioridad (`baja`, `media`, `alta`) y estado (`pendiente`, `en_progreso`, `completada`).
+     - Prevención de envíos duplicados con estado `isSubmitting`.
+  3. **Modal de Confirmación Segura (`frontend/src/components/DeleteConfirmModal.jsx`)**:
+     - Diálogo de advertencia previo a la eliminación física de una tarea para evitar pérdidas accidentales de datos.
+  4. **Panel de Control y Métricas (`frontend/src/pages/Dashboard.jsx`)**:
+     - 4 Tarjetas de métricas numéricas: Total de Tareas, Pendientes, En Progreso, Completadas.
+     - Barra de progreso general con cálculo dinámico del porcentaje de finalización.
+     - Búsqueda en tiempo real por texto (título y descripción).
+     - Pestañas de filtrado rápido por estado (`todas`, `pendiente`, `en_progreso`, `completada`).
+     - Selector de filtro por prioridad (`todas`, `alta`, `media`, `baja`).
+     - Selector de vista dual: **Vista de Tabla** (con checks de cambio rápido, badges, selector de estado directo y botones de acción) y **Vista de Tarjetas** en cuadrícula.
+  5. **Operaciones CRUD Sincronizadas**:
+     - Creación (`POST /api/tasks` -> feedback toast éxito).
+     - Edición (`PUT /api/tasks/:id` -> feedback toast éxito).
+     - Alternancia rápida de estado (optimistic update en UI + sincronización en background).
+     - Eliminación con diálogo (`DELETE /api/tasks/:id` -> feedback toast éxito).
+  6. **Validación y Calidad**:
+     - `npm.cmd run build` exitoso (**1.32s**).
+     - 20/20 pruebas unitarias del backend aprobadas (**0.060s**).
+
+---
+
+### ⏳ Próxima Sesión: Sesión 10 - Diseño Responsive con Tailwind
 - **Qué haremos**:
-  1. Enriquecer el Dashboard con un CRUD interactivo completo para tareas.
-  2. Implementar modales o formularios dedicados de edición rápida.
-  3. Filtros avanzados por estado (`todas`, `pendiente`, `en_progreso`, `completada`) y prioridad (`baja`, `media`, `alta`).
-  4. Contadores y métricas en vivo sincronizadas con la base de datos Supabase.
+  1. Optimizar la adaptabilidad del layout completo para dispositivos móviles (smartphones), tablets y monitores de escritorio.
+  2. Implementar menú de navegación móvil (drawer o menú hamburguesa colapsable) en `Navbar.jsx`.
+  3. Ajustar tablas y cuadrículas de tareas para una experiencia táctil y lectura cómoda en pantallas pequeñas.
+  4. Pulir espaciados, tipografías y micro-interacciones conservando la estética monocromática sin gradientes.
 - **Lo que tú necesitas hacer**:
   - Ninguna acción externa requerida. Todo el desarrollo se realizará y validará localmente.
+

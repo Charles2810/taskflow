@@ -8,16 +8,19 @@ import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
+import { ToastProvider } from './context/ToastContext';
 
 /**
- * Enrutador principal de TaskFlow (Sesión 07 y Sesión 08)
+ * Enrutador principal de TaskFlow (Sesión 07, 08 y 09)
  * Configuración de navegación SPA con rutas públicas y privadas,
- * envueltas en AuthProvider para estado global de sesión.
+ * envueltas en AuthProvider y ToastProvider.
  */
 export default function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <ToastProvider>
+        <BrowserRouter>
+
         <Routes>
           <Route path="/" element={<MainLayout />}>
             {/* Rutas Públicas */}
@@ -40,7 +43,9 @@ export default function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      </ToastProvider>
     </AuthProvider>
   );
 }
+
 
