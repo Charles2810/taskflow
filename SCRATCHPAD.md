@@ -44,7 +44,7 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 | **11** | Formularios y Validación | ✅ **COMPLETADO** | Validación en tiempo real (regex email, contraseñas con medidor de fuerza, contadores de caracteres), errores inline y campos complejos. | Sesión 11 finalizada |
 | **12** | Deploy Backend en Render | ✅ **COMPLETADO** | Archivo `Procfile`, servidor WSGI `gunicorn`, `render.yaml` IaC, puerto dinámico en `run.py` y API en vivo en Render (`taskflow-zt2r.onrender.com`). | Sesión 12 finalizada |
 | **13** | Deploy Frontend en Cloudflare | ✅ **COMPLETADO** | Build de producción (`dist/`), regla SPA `_redirects`, variables `VITE_API_URL` y frontend en vivo en Cloudflare Pages (`https://taskflow-bco.pages.dev`). | Pasar a Sesión 14 |
-| **14** | Integración Final & Pruebas | ⏳ **SIGUIENTE** | Pruebas de integración E2E, documentación final, checklist de rúbrica y entrega académica. | Cierre del proyecto |
+| **14** | Integración Final & Pruebas | ✅ **COMPLETADO** | Pruebas E2E en vivo (8/8), README oficial exhaustivo, guion de pitch para feria y rúbrica académica. | 🏆 Proyecto finalizado con éxito |
 
 
 
@@ -281,11 +281,37 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 
 ---
 
-### ⏳ Próxima Sesión: Sesión 14 - Integración Final & Pruebas
-- **Qué haremos**:
-  1. Pruebas de integración End-to-End (E2E) entre el Frontend en Cloudflare Pages y el Backend en Render conectado a Supabase.
-  2. Verificación de flujos completos: Registro de usuario -> Login con JWT -> Carga de tareas -> Creación -> Edición -> Filtrado -> Eliminación -> Logout.
-  3. Actualización final de la documentación general del proyecto (`README.md`, manual de entrega).
-  4. Verificación de cumplimiento contra la rúbrica de evaluación académica de la materia.
-- **Lo que tú necesitas hacer**:
-  - Enlazar tu repositorio `Charles2810/taskflow` en [Cloudflare Pages](https://pages.cloudflare.com) siguiendo `docs/deploy/cloudflare.md` y compartirnos la URL pública `pages.dev` asignada.
+### ✅ Sesión 14: Integración Final, Pruebas E2E y Presentación Académica
+- **Objetivo**: Verificar el funcionamiento End-to-End en producción de toda la plataforma, auditar la seguridad y rendimiento, crear documentación exhaustiva y preparar todo el material de presentación para la defensa y feria académica.
+- **Acciones Realizadas**:
+  1. **Suite de Pruebas End-to-End en Vivo (`backend/test_e2e_live.py`)**:
+     - Creado script automatizado que realiza peticiones reales contra `https://taskflow-zt2r.onrender.com/api`.
+     - Validado el ciclo completo (8/8 pruebas exitosas):
+       1. Healthcheck (`GET /api/health` -> `status: ok`).
+       2. Registro dinámico de usuario (`POST /api/auth/register` -> ID generado).
+       3. Login con JWT (`POST /api/auth/login` -> Bearer token emitido).
+       4. Validación de identidad (`GET /api/auth/me` con cabecera Authorization).
+       5. Creación de tarea en Supabase (`POST /api/tasks`).
+       6. Consulta de tareas filtrada por usuario (`GET /api/tasks?user_id=...`).
+       7. Actualización de estado a completada (`PUT /api/tasks/<id>`).
+       8. Eliminación física de la tarea de prueba (`DELETE /api/tasks/<id>`).
+  2. **README Oficial Completo y Profesional (`README.md`)**:
+     - Insignias oficiales de build, pruebas unitarias (20/20) y E2E (8/8).
+     - Diagrama de arquitectura del sistema en producción.
+     - Catálogo exhaustivo de endpoints de la API REST con métodos, niveles de acceso y descripción.
+     - Guía detallada de instalación y ejecución local para backend (venv) y frontend (vite).
+     - Credenciales demo y enlaces a producción activos.
+  3. **Material para la Feria de Proyectos (`docs/entrega/`)**:
+     - `docs/entrega/guion_presentacion.md`: Pitch estructurado de 3 minutos, pasos cronometrados para la demo en vivo, respuestas justificadas a preguntas del jurado docente y plan B de contingencia.
+     - `docs/entrega/checklist_rubrica.md`: Matriz de cumplimiento con 100% de los requisitos académicos cubiertos.
+  4. **Estado Final del Proyecto**:
+     - **Frontend**: [https://taskflow-bco.pages.dev](https://taskflow-bco.pages.dev) (Cloudflare Pages CDN)
+     - **Backend**: [https://taskflow-zt2r.onrender.com](https://taskflow-zt2r.onrender.com) (Render Gunicorn WSGI)
+     - **Base de Datos**: PostgreSQL en Supabase con Row Level Security
+     - **Repositorio**: [https://github.com/Charles2810/taskflow](https://github.com/Charles2810/taskflow) (Rama `main`)
+
+---
+
+## 🏆 CIERRE DEL PROYECTO: 14 DE 14 SESIONES COMPLETADAS (100%)
+¡Felicitaciones! TaskFlow está listo, verificado en producción y documentado para la presentación académica. 🎉
+
