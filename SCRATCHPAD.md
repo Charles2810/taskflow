@@ -36,9 +36,9 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 | **01** | Entorno + Git + GitHub | ✅ **COMPLETADO** | Entorno configurado (Python 3.12, Node 24, Git), Repo GitHub creado, Estructura base, `.gitignore`, `README.md`, `SCRATCHPAD.md`. | Sesión 01 finalizada |
 | **02** | Python + Flask: Primera API | ✅ **COMPLETADO** | Entorno virtual `.venv`, `requirements.txt`, API Flask con endpoints REST completos (`GET`, `POST`, `PUT`, `DELETE`), CORS y suite de pruebas unitarias (`test_api.py`). | Sesión 02 finalizada |
 | **03** | CRUD y Estructura MVC | ✅ **COMPLETADO** | Refactorización a MVC: `models/`, `controllers/`, `routes/`, Blueprints modulares (`users_bp`, `tasks_bp`), CRUD completo de Tareas y 15 pruebas unitarias. | Sesión 03 finalizada |
-| **04** | Supabase & Base de Datos | ✅ **COMPLETADO** | Conexión activa a PostgreSQL en la nube, tablas `users` y `tasks` creadas con RLS, SDK `supabase-py` integrado y verificado con consultas en vivo. | Pasar a Sesión 05 |
-| **05** | Autenticación y Autorización | ⏳ **SIGUIENTE** | Sistema Auth con JWT / Supabase Auth, endpoints `/auth/register` y `/auth/login`, decoradores `@token_required` y `@admin_required`. | Iniciar Sesión 05 |
-| **06** | React + Vite Setup | 🔜 Pendiente | Inicialización de SPA en `frontend/` con Vite, configuración de scripts y estructura de componentes. | - |
+| **04** | Supabase & Base de Datos | ✅ **COMPLETADO** | Conexión activa a PostgreSQL en la nube, tablas `users` y `tasks` creadas con RLS, SDK `supabase-py` integrado y verificado con consultas en vivo. | Sesión 04 finalizada |
+| **05** | Autenticación y Autorización | ✅ **COMPLETADO** | Módulo de Auth JWT / Supabase, endpoints `/auth/register`, `/auth/login`, `/auth/me`, decoradores `@token_required` y `@admin_required`, 20 pruebas unitarias aprobadas. | Pasar a Sesión 06 |
+| **06** | React + Vite Setup | ⏳ **SIGUIENTE** | Inicialización del frontend con React 18/19, Vite y TailwindCSS en `frontend/`, estructura de componentes funcionales y estado con `useState`. | Configurar React + Vite |
 | **07** | React Router y Navegación | 🔜 Pendiente | Configuración de rutas (`/`, `/login`, `/register`, `/dashboard`), layouts y páginas protegidas. | - |
 | **08** | Consumo de API y Estado | 🔜 Pendiente | Servicios Axios/Fetch, Custom Hooks, Context API para autenticación global y sesión persistente. | - |
 | **09** | Dashboard CRUD en React | 🔜 Pendiente | Listado interactivo de tareas, modal de creación/edición, cambio de estado (pendiente/completada), eliminación. | - |
@@ -55,71 +55,66 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 ### ✅ Sesión 01: Entorno de Desarrollo + Git + GitHub
 - **Objetivo**: Establecer el ambiente completo, instalar herramientas, estructurar el repositorio y subirlo a GitHub.
 - **Acciones Realizadas**:
-  1. Verificación e instalación de herramientas:
-     - `Git`: versión 2.55.0 configurada con `user.name: Charles2810`, `user.email: condecharles28@gmail.com`.
-     - `Node.js`: v24.21.0 verificado.
-     - `Python`: 3.12.10 instalado y enlazado al PATH del sistema.
-     - `pip`: 25.0.1 verificado.
-     - `gh CLI`: versión 2.101.0 autenticado con GitHub.
-  2. Organización de archivos:
-     - 14 guías PDF trasladadas a `docs/guias/` para mantener limpio el directorio raíz.
-     - Carpetas creadas: `backend/app/`, `frontend/src/`, `docs/guias/`.
-  3. Archivos base creados:
-     - `.gitignore` (reglas para Python, Node, entornos virtuales y secretos).
-     - `README.md` (documentación oficial del proyecto).
-     - `SCRATCHPAD.md` (este documento).
-  4. Repositorio Git y GitHub:
-     - Repositorio local inicializado con rama principal `main`.
-     - Repositorio remoto público creado en GitHub: `https://github.com/Charles2810/taskflow`.
-     - Commit inicial y sincronización (`push`) realizada exitosamente.
+  1. Verificación e instalación de herramientas (Git, Node, Python 3.12, gh CLI).
+  2. Organización de archivos (PDFs en `docs/guias/`).
+  3. Creación de `.gitignore`, `README.md`, `SCRATCHPAD.md`.
+  4. Repositorio público en GitHub enlazado.
 
 ---
 
 ### ✅ Sesión 02: Python + Flask: Creación de la Primera API REST
-- **Objetivo**: Crear el entorno virtual, instalar Flask y Flask-CORS, y construir una API REST completa con operaciones CRUD de usuarios y validaciones.
+- **Objetivo**: Crear entorno virtual `.venv`, endpoints CRUD en memoria y pruebas unitarias.
 - **Acciones Realizadas**:
-  1. Entorno virtual y dependencias:
-     - Entorno virtual `.venv` generado en `backend/` con Python 3.12.
-     - Dependencias instaladas: `Flask 3.1.3`, `Flask-CORS 6.0.5`, `python-dotenv 1.2.3`.
-     - Archivo `requirements.txt` y `.env.example` configurados.
-  2. Implementación de la API:
-     - Factory pattern `create_app()` en `backend/app/__init__.py`.
-     - Habilitación de CORS para comunicación con el frontend.
-     - Endpoints CRUD de usuarios (`GET`, `POST`, `PUT`, `DELETE`).
-  3. Pruebas y Validación:
-     - Suite automatizada con 7 pruebas unitarias aprobadas.
+  1. Entorno `.venv` con Flask y Flask-CORS.
+  2. Endpoints `/api/health` y `/api/users`.
+  3. Suite de pruebas unitarias.
 
 ---
 
 ### ✅ Sesión 03: CRUD Completo + Estructura MVC
-- **Objetivo**: Organizar profesionalmente el código backend bajo la arquitectura MVC (Model-View-Controller) y construir el CRUD completo de Tareas con validaciones y relaciones.
+- **Objetivo**: Organizar backend en MVC profesional y crear CRUD de Tareas con Blueprints.
 - **Acciones Realizadas**:
-  1. Arquitectura MVC implementada en `backend/app/`:
-     - **Modelos** (`app/models/`):
-       - `user_model.py`: `UserModel` con métodos CRUD, búsqueda por ID y por email, y reset.
-       - `task_model.py`: `TaskModel` con relación foránea `user_id`, prioridades (`baja`, `media`, `alta`), estados (`pendiente`, `en_progreso`, `completada`) y máquina de estados para transiciones permitidas.
-     - **Controladores** (`app/controllers/`):
-       - `user_controller.py`: Lógica de negocio, validaciones de emails únicos, nombres no vacíos, cascada de tareas al eliminar usuario y endpoint `get_user_tasks`.
-       - `task_controller.py`: Validación de existencia de usuario asignado, validación de título obligatorio, control estricto de transiciones de estado y respuestas enriquecidas con datos del usuario.
-     - **Rutas y Blueprints** (`app/routes/`):
-       - `user_routes.py`: Blueprint `users_bp` registrado con prefijo `/api`.
-       - `task_routes.py`: Blueprint `tasks_bp` registrado con prefijo `/api`.
-     - **Factoría Principal** (`app/__init__.py`): Registro modular de Blueprints, habilitación global de CORS, endpoint raíz de documentación dinámica de rutas y health-check.
-  2. Pruebas Automatizadas:
-     - Suite `backend/test_api.py` ampliada a **15 pruebas unitarias**.
-     - Cobertura: Health check, catálogo, CRUD completo de usuarios, validación de email duplicado, CRUD completo de tareas, filtros por `user_id` y por `estado`, validación de transiciones de estado, cascada y relación usuario-tareas.
-     - **Resultado**: 15/15 tests aprobados en 0.045s.
+  1. Carpetas `models/`, `controllers/`, `routes/`.
+  2. Blueprints `users_bp` y `tasks_bp`.
+  3. Relaciones usuario-tarea y máquina de estados para tareas.
+  4. 15 pruebas unitarias aprobadas.
 
 ---
 
-### ⏳ Próxima Sesión: Sesión 04 - Supabase: Base de Datos en la Nube
+### ✅ Sesión 04: Supabase: Base de Datos en la Nube
+- **Objetivo**: Migrar de memoria a PostgreSQL en la nube con Supabase.
+- **Acciones Realizadas**:
+  1. SDK `supabase-py` integrado en `backend/app/config.py`.
+  2. Credenciales configuradas de forma segura en `backend/.env`.
+  3. Script de migración SQL `docs/sql/01_create_tables.sql` ejecutado en Supabase con RLS, tablas `users` y `tasks`, índices y seeds.
+  4. Verificación en vivo: consultas directas de usuarios y tareas desde la base de datos en la nube.
+
+---
+
+### ✅ Sesión 05: Autenticación y Autorización
+- **Objetivo**: Proteger la aplicación con tokens JWT y control de acceso por roles.
+- **Acciones Realizadas**:
+  1. Módulo de utilidad `backend/app/utils/auth.py`:
+     - Función `generate_token(user)` con firma HS256 y expiración a 24 horas.
+     - Función `decode_token(token)` con soporte para JWT local y verificación con `supabase.auth.get_user(token)`.
+     - Middleware `@token_required`: valida header `Authorization: Bearer <token>` e inyecta el usuario en `g.current_user` (401 si falta o es inválido).
+     - Middleware `@admin_required`: valida rol de administrador (403 si denegado).
+  2. Controlador `backend/app/controllers/auth_controller.py`:
+     - `POST /api/auth/register`: Registro validando longitud de contraseña, correo único y emisión de token JWT inicial (201).
+     - `POST /api/auth/login`: Autenticación contra Supabase Auth y base de datos con generación de JWT (200).
+     - `GET /api/auth/me`: Perfil del usuario autenticado actual protegido con `@token_required`.
+  3. Rutas `backend/app/routes/auth_routes.py`:
+     - Blueprint `auth_bp` registrado con prefijo `/api` en la factoría `create_app()`.
+  4. Pruebas Automatizadas:
+     - **20/20 pruebas unitarias aprobadas** en 0.059s en `backend/test_api.py`.
+
+---
+
+### ⏳ Próxima Sesión: Sesión 06 - React + Vite: Setup y Componentes
 - **Qué haremos**:
-  1. Conectar Flask con PostgreSQL en la nube a través del SDK `supabase-py`.
-  2. Crear los scripts de migración SQL para las tablas `users` y `tasks` con claves foráneas, tipos UUID y timestamps.
-  3. Reemplazar la persistencia en memoria de los modelos por operaciones directas contra Supabase.
-  4. Configurar variables de entorno seguras (`SUPABASE_URL`, `SUPABASE_KEY`).
-- **🔔 LO QUE TÚ TIENES QUE HACER**:
-  - Ingresar a [https://supabase.com](https://supabase.com) y registrarte (con tu cuenta de GitHub o email).
-  - Crear un nuevo proyecto gratuito (por ejemplo llamado `taskflow-db`).
-  - Obtener tu **Project URL** y tu **anon public API Key** desde: *Project Settings > API*.
-  - (Te guiaremos paso a paso en cuanto iniciemos la sesión).
+  1. Inicializar la aplicación cliente SPA en la carpeta `frontend/` usando Vite y React (`npm create vite@latest . -- --template react`).
+  2. Instalar dependencias de frontend y configurar **TailwindCSS** con sus directivas de estilos.
+  3. Crear componentes funcionales base reutilizables (Botón, Card, Input, Navbar).
+  4. Manejar estado interactivo con `useState` y pasar datos mediante `props`.
+- **Lo que tú necesitas hacer**:
+  - Ninguna acción externa requerida. Se desarrollará y probará en el entorno local.

@@ -1,12 +1,13 @@
 """
-TaskFlow Backend - Aplicación Flask (Sesión 03 - Arquitectura MVC)
-Estructura modular con separación de Modelos, Controladores y Rutas (Blueprints).
+TaskFlow Backend - Aplicación Flask (Sesión 05 - Autenticación y Autorización)
+Estructura modular MVC con Blueprints para Usuarios, Tareas y Autenticación.
 """
 
 from flask import Flask, jsonify
 from flask_cors import CORS
 from app.routes.user_routes import users_bp
 from app.routes.task_routes import tasks_bp
+from app.routes.auth_routes import auth_bp
 
 
 def create_app():
@@ -14,6 +15,7 @@ def create_app():
     CORS(app)  # Permite conexiones desde el cliente web / frontend
 
     # Registrar Blueprints de los módulos bajo el prefijo /api
+    app.register_blueprint(auth_bp, url_prefix="/api")
     app.register_blueprint(users_bp, url_prefix="/api")
     app.register_blueprint(tasks_bp, url_prefix="/api")
 
@@ -22,11 +24,14 @@ def create_app():
         """Ruta raíz informativa con el mapa de endpoints."""
         return jsonify({
             "service": "TaskFlow API",
-            "version": "1.1.0",
-            "architecture": "MVC (Model-View-Controller)",
+            "version": "1.2.0",
+            "architecture": "MVC con Autenticación JWT / Supabase",
             "status": "online",
             "endpoints": [
                 "GET /api/health",
+                "POST /api/auth/register",
+                "POST /api/auth/login",
+                "GET /api/auth/me",
                 "GET /api/users",
                 "POST /api/users",
                 "GET /api/users/<id>",
@@ -48,7 +53,8 @@ def create_app():
             "status": "ok",
             "service": "taskflow-backend",
             "architecture": "MVC",
-            "version": "1.1.0"
+            "auth": "JWT enabled",
+            "version": "1.2.0"
         }), 200
 
     return app

@@ -178,6 +178,79 @@ class TaskFlowMVCTestCase(unittest.TestCase):
         res_404 = self.client.get("/api/users/999/tasks")
         self.assertEqual(res_404.status_code, 404)
 
+    # --- Pruebas de Autenticación y JWT (Sesión 05) ---
+    def test_auth_register_success(self):
+        payload = {
+            "nombre": "Estudiante UPDS",
+            "email": "estudiante@upds.edu.bo",
+            "password": "passwordSeguro123",
+            "rol": "usuario"
+        }
+        res = self.client.post("/api/auth/register", json=payload)
+        self.assertEqual(res.status_code, 201)
+        data = res.get_json()
+        self.assertIn("token", data)
+        self.assertIn("user", data)
+        self.assertEqual(data["user"]["email"], "estudiante@upds.edu.bo")
+
+    def test_auth_register_validations(self):
+        # Contraseña corta (< 6 caracteres)
+        res1 = self.client.post("/api/auth/register", json={
+            "nombre": "Test",
+            "email": "test@email.com",
+            "password": "123"
+        })
+        self.assertEqual(res1.status_code, 400)
+
+        # Correo ya existente
+        res2 = self.client.post("/api/auth/register", json={
+            "nombre": "Otro Admin",
+            "email": "admin@taskflow.com",
+            "password": "password123"
+        })
+        self.assertEqual(res2.status_code, 400)
+
+    def test_auth_login_success(self):
+        # Iniciar sesión con un usuario existente
+        res = self.client.post("/api/auth/login", json={
+            "email": "admin@taskflow.com",
+            "password": "cualquierPasswordParaTest"
+        })
+        self.assertEqual(res.status_code, 200)
+        data = res.get_json()
+        self.assertIn("token", data)
+        self.assertEqual(data["user"]["email"], "admin@taskflow.com")
+
+    def test_auth_login_invalid_credentials(self):
+        res = self.client.post("/api/auth/login", json={
+            "email": "noexiste@taskflow.com",
+            "password": "wrongpassword"
+        })
+        self.assertEqual(res.status_code, 401)
+
+    def test_auth_me_protected(self):
+        # 1. Petición sin token -> 401
+        res_no_token = self.client.get("/api/auth/me")
+        self.assertEqual(res_no_token.status_code, 401)
+
+        # 2. Petición con token inválido -> 401
+        res_bad_token = self.client.get("/api/auth/me", headers={"Authorization": "Bearer tokenInvalido123"})
+        self.assertEqual(res_bad_token.status_code, 401)
+
+        # 3. Obtener token válido mediante login
+        login_res = self.client.post("/api/auth/login", json={
+            "email": "admin@taskflow.com",
+            "password": "password123"
+        })
+        token = login_res.get_json()["token"]
+
+        # 4. Petición con Bearer token válido -> 200
+        res_me = self.client.get("/api/auth/me", headers={"Authorization": f"Bearer {token}"})
+        self.assertEqual(res_me.status_code, 200)
+        data = res_me.get_json()
+        self.assertEqual(data["user"]["email"], "admin@taskflow.com")
+        self.assertEqual(data["user"]["rol"], "administrador")
+
 
 if __name__ == "__main__":
     unittest.main()
