@@ -39,8 +39,8 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 | **04** | Supabase & Base de Datos | ✅ **COMPLETADO** | Conexión activa a PostgreSQL en la nube, tablas `users` y `tasks` creadas con RLS, SDK `supabase-py` integrado y verificado con consultas en vivo. | Sesión 04 finalizada |
 | **05** | Autenticación y Autorización | ✅ **COMPLETADO** | Módulo de Auth JWT / Supabase, endpoints `/auth/register`, `/auth/login`, `/auth/me`, decoradores `@token_required` y `@admin_required`, 20 pruebas unitarias aprobadas. | Pasar a Sesión 06 |
 | **06** | React + Vite Setup | ✅ **COMPLETADO** | Configuración de React 18 con Vite, TailwindCSS, PostCSS, componentes base (`Button`, `Card`, `Input`, `Navbar`, `Badge`) y estado reactivo con `useState`. | Pasar a Sesión 07 |
-| **07** | React Router y Navegación | ⏳ **SIGUIENTE** | Instalar `react-router-dom`, configurar navegación SPA con rutas públicas y privadas (`/`, `/login`, `/register`, `/dashboard`) y componentes protegidos. | Configurar React Router |
-| **08** | Consumo de API y Estado | 🔜 Pendiente | Servicios Axios/Fetch, Custom Hooks, Context API para autenticación global y sesión persistente. | - |
+| **07** | React Router y Navegación | ✅ **COMPLETADO** | `react-router-dom` configurado, rutas públicas (`/`, `/login`, `/register`), ruta protegida (`/dashboard`), `MainLayout`, 404 `NotFound` y enlaces fluidos. | Pasar a Sesión 08 |
+| **08** | Consumo de API y Estado | ⏳ **SIGUIENTE** | Conexión Frontend-Backend con `fetch` / `axios`, `useEffect`, manejo de estados `loading`/`error` y `AuthContext` global. | Conectar API en React |
 | **09** | Dashboard CRUD en React | 🔜 Pendiente | Listado interactivo de tareas, modal de creación/edición, cambio de estado (pendiente/completada), eliminación. | - |
 | **10** | Diseño Responsive + Tailwind | 🔜 Pendiente | Estilos modernos, diseño móvil/tablet/desktop, temas y feedback visual enriquecido. | - |
 | **11** | Formularios y Validación | 🔜 Pendiente | Validación de formularios, manejo de errores de backend y notificaciones toast de éxito/alerta. | - |
@@ -102,35 +102,40 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 ---
 
 ### ✅ Sesión 06: React + Vite: Setup y Componentes
-- **Objetivo**: Inicializar el entorno del Frontend con React, Vite y TailwindCSS, y construir la primera interfaz con componentes funcionales y estado reactivo.
+- **Objetivo**: Inicializar el entorno del Frontend con React, Vite y TailwindCSS, y construir componentes funcionales minimalistas monocromáticos.
 - **Acciones Realizadas**:
-  1. Configuración de Vite y dependencias:
-     - Configuración de `frontend/package.json` con React 18, Vite 6, TailwindCSS 3.4, PostCSS, Autoprefixer y Lucide Icons.
-     - Archivos de configuración: `vite.config.js`, `tailwind.config.js`, `postcss.config.js` e `index.html`.
-     - Directivas Tailwind y diseño de tema oscuro moderno en `frontend/src/index.css`.
-  2. Arquitectura de Componentes Funcionales (`frontend/src/components/`):
-     - `Button.jsx`: Botón flexible con variantes (`primary`, `secondary`, `danger`, `outline`, `success`), soporte de iconos y estados interactivos.
-     - `Card.jsx`: Contenedor para tarjetas de contenido con bordes sutiles y sombra.
-     - `Input.jsx`: Campo de texto reutilizable con label, placeholder y feedback de validación.
-     - `Badge.jsx`: Píldoras visuales para estados (`pendiente`, `en_progreso`, `completada`) y prioridades (`alta`, `media`, `baja`).
-     - `Navbar.jsx`: Barra de navegación responsive con isotipo de TaskFlow, contador reactivo de tareas y perfil de usuario.
-  3. Gestión de Estado y Flujo Interactivo (`frontend/src/App.jsx`):
-     - Manejo de lista reactiva de tareas con `useState`.
-     - Formulario funcional para añadir nuevas tareas con validación.
-     - Alternado rápido de estado (pendiente ↔ completada) y eliminación de tareas.
-     - Filtros por categoría (Todas, Pendientes, Completadas) y contadores dinámicos.
-  4. Verificación y Compilación:
-     - `npm.cmd install` ejecutado con 0 vulnerabilidades.
-     - `npm.cmd run build` verificado exitosamente (bundle de producción generado en 1.19s).
+  1. Configuración de React 18, Vite 6, TailwindCSS y PostCSS en `frontend/`.
+  2. Biblioteca de componentes: `Button.jsx`, `Card.jsx`, `Input.jsx`, `Badge.jsx`, `Navbar.jsx`.
+  3. Aplicación de rediseño monocromático sin gradientes según requerimiento del usuario.
+  4. Compilación exitosa en 1.13s con `npm.cmd run build`.
 
 ---
 
-### ⏳ Próxima Sesión: Sesión 07 - React Router: Navegación SPA
+### ✅ Sesión 07: React Router: Navegación SPA
+- **Objetivo**: Configurar navegación Single Page Application con React Router, rutas públicas y privadas, y resguardo mediante componentes de protección.
+- **Acciones Realizadas**:
+  1. Paquete instalado: `react-router-dom` en `frontend/package.json`.
+  2. Layout y Vistas Creadas:
+     - `layouts/MainLayout.jsx`: Contenedor principal con Navbar y `<Outlet />` para navegación fluida.
+     - `pages/Home.jsx`: Landing page con presentación de la plataforma y llamadas a la acción.
+     - `pages/Login.jsx`: Formulario de inicio de sesión con navegación mediante `useNavigate()` y atajos de prueba demo.
+     - `pages/Register.jsx`: Formulario de creación de cuenta.
+     - `pages/Dashboard.jsx`: Vista privada y modularizada del gestor de tareas.
+     - `pages/NotFound.jsx`: Manejo de rutas inexistentes (Error 404).
+  3. Protección de Rutas:
+     - `components/ProtectedRoute.jsx`: Bloquea el acceso a `/dashboard` si no existe token en `localStorage` y redirige a `/login` preservando la ruta previa.
+  4. Integración y Compilación:
+     - Configuración central de `<BrowserRouter>` en `frontend/src/App.jsx`.
+     - `Navbar.jsx` actualizado con enlaces `<Link>`, detección de ruta activa y botón de cerrar sesión.
+     - Compilación limpia con `npm.cmd run build` (**1.36s**).
+
+---
+
+### ⏳ Próxima Sesión: Sesión 08 - Consumo de API y Estado Global
 - **Qué haremos**:
-  1. Instalar `react-router-dom` en el frontend.
-  2. Crear la estructura de vistas/páginas: `Home.jsx`, `Login.jsx`, `Register.jsx`, `Dashboard.jsx`.
-  3. Configurar el enrutador central `<BrowserRouter>` con `<Routes>` y `<Route>`.
-  4. Implementar componente `<ProtectedRoute>` para resguardar el acceso al Dashboard.
-  5. Navegación fluida sin recarga de página con enlaces `<Link>` y hooks `useNavigate()`.
+  1. Crear un contexto global de autenticación (`AuthContext.jsx` con Context API) para proveer el usuario y token a toda la app.
+  2. Crear módulo de servicios cliente para consumir la API Flask (`/api/tasks`, `/api/users`, `/api/auth`).
+  3. Manejar estados asíncronos (`loading`, `error`, `data`) con `useEffect` en las vistas.
+  4. Conectar el frontend con el backend en tiempo real.
 - **Lo que tú necesitas hacer**:
-  - Ninguna acción externa requerida. Todo se construirá y probará en el entorno local.
+  - Ninguna acción externa requerida. Todo el desarrollo se realizará y validará localmente.
