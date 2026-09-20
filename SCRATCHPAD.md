@@ -34,9 +34,9 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 
 | # | Sesión | Estado | Entregables Clave | Próxima Acción |
 |---|---|:---:|---|---|
-| **01** | Entorno + Git + GitHub | ✅ **COMPLETADO** | Entorno configurado (Python 3.12, Node 24, Git), Repo GitHub creado, Estructura base, `.gitignore`, `README.md`, `SCRATCHPAD.md`. | Pasar a Sesión 02 |
-| **02** | Python + Flask: Primera API | ⏳ **SIGUIENTE** | Entorno virtual (`.venv`), `requirements.txt`, primera API Flask funcional con rutas de prueba y JSON. | Crear venv e instalar Flask |
-| **03** | CRUD y Estructura MVC | 🔜 Pendiente | Controladores, Modelos, Servicios y rutas REST completas (GET, POST, PUT, DELETE). | Esperar Sesión 02 |
+| **01** | Entorno + Git + GitHub | ✅ **COMPLETADO** | Entorno configurado (Python 3.12, Node 24, Git), Repo GitHub creado, Estructura base, `.gitignore`, `README.md`, `SCRATCHPAD.md`. | Sesión 01 finalizada |
+| **02** | Python + Flask: Primera API | ✅ **COMPLETADO** | Entorno virtual `.venv`, `requirements.txt`, API Flask con endpoints REST completos (`GET`, `POST`, `PUT`, `DELETE`), CORS y suite de pruebas unitarias (`test_api.py`). | Pasar a Sesión 03 |
+| **03** | CRUD y Estructura MVC | ⏳ **SIGUIENTE** | Reorganizar backend en arquitectura MVC (Modelos, Vistas/Rutas, Controladores) y separar la lógica de negocio y datos. | Iniciar refactorización MVC |
 | **04** | Supabase & Base de Datos | 🔜 Pendiente | Tablas SQL en Supabase (`users`, `tasks`), migración e integración con SDK Supabase en Flask. | Requiere cuenta Supabase |
 | **05** | Autenticación y Autorización | 🔜 Pendiente | JWT (JSON Web Tokens), endpoints `/auth/register` y `/auth/login`, decoradores `@token_required`. | - |
 | **06** | React + Vite Setup | 🔜 Pendiente | Inicialización de SPA en `frontend/` con Vite, configuración de scripts y estructura de componentes. | - |
@@ -76,11 +76,34 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 
 ---
 
-### ⏳ Próxima Sesión: Sesión 02 - Python + Flask: Creación de la Primera API REST
+### ✅ Sesión 02: Python + Flask: Creación de la Primera API REST
+- **Objetivo**: Crear el entorno virtual, instalar Flask y Flask-CORS, y construir una API REST completa con operaciones CRUD de usuarios y validaciones.
+- **Acciones Realizadas**:
+  1. Entorno virtual y dependencias:
+     - Entorno virtual `.venv` generado en `backend/` con Python 3.12.
+     - Dependencias instaladas: `Flask 3.1.3`, `Flask-CORS 6.0.5`, `python-dotenv 1.2.3`.
+     - Archivo `requirements.txt` y `.env.example` configurados.
+  2. Implementación de la API:
+     - Factory pattern `create_app()` en `backend/app/__init__.py`.
+     - Habilitación de CORS para comunicación con el frontend.
+     - `GET /`: Información general de la API y catálogo de endpoints.
+     - `GET /api/health`: Health-check retornando status 200 y confirmación de servicio online.
+     - `GET /api/users`: Listado completo de usuarios en formato JSON.
+     - `GET /api/users/<id>`: Búsqueda de usuario específico (200 o 404).
+     - `POST /api/users`: Creación con validación de campo requerido `nombre` (201 o 400).
+     - `PUT /api/users/<id>`: Actualización de datos de usuario con validación (200 o 404).
+     - `DELETE /api/users/<id>`: Eliminación de usuario (200 o 404).
+  3. Pruebas y Validación:
+     - Suite automatizada `backend/test_api.py` con `unittest`.
+     - 7/7 pruebas unitarias ejecutadas y aprobadas (cobertura total de endpoints y códigos 200, 201, 400, 404).
+
+---
+
+### ⏳ Próxima Sesión: Sesión 03 - CRUD y Estructura MVC
 - **Qué haremos**:
-  1. Crear el entorno virtual de Python (`python -m venv .venv`).
-  2. Instalar dependencias base (`Flask`, `python-dotenv`, `flask-cors`) y generar `requirements.txt`.
-  3. Crear la aplicación inicial en `backend/run.py` y `backend/app/__init__.py`.
-  4. Implementar las primeras rutas de prueba (`/`, `/api/health`, `/api/tasks` mock) y probarlas localmente.
+  1. Reorganizar la aplicación Flask en la arquitectura MVC (Model-View-Controller).
+  2. Crear carpetas y módulos: `backend/app/models/`, `backend/app/controllers/`, `backend/app/routes/`.
+  3. Migrar las rutas y lógica de negocio a Blueprints de Flask.
+  4. Extender el modelo de datos para incluir Tareas (`tasks`), además de usuarios.
 - **Lo que tú necesitas hacer**:
-  - Ninguna acción externa requerida para la Sesión 02. Todo se ejecutará y validará en tu entorno local.
+  - Ninguna acción externa requerida para la Sesión 03. Continuaremos trabajando en el backend localmente.
