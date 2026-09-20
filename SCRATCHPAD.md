@@ -22,8 +22,7 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 
 - [x] **Sesión 01**: Tener Git instalado y cuenta de GitHub configurada (`Charles2810`).
 - [x] **Sesión 04**: Crear proyecto en [Supabase](https://supabase.com), configurar `.env` y ejecutar script SQL (✅ Completado y verificado en vivo).
-- [ ] **Sesión 12**: Crear cuenta en [Render](https://render.com) para alojar la API Flask de backend.
-  - *Se requerirá*: Conectar tu cuenta de GitHub a Render.
+- [x] **Sesión 12**: Conectar cuenta en [Render](https://render.com) para alojar la API Flask de backend (Archivos listos: `Procfile`, `render.yaml`, `gunicorn` y guía `docs/deploy/render.md`).
 - [ ] **Sesión 13**: Crear cuenta en [Cloudflare Pages](https://pages.cloudflare.com) para alojar el frontend React.
   - *Se requerirá*: Conectar tu repositorio de GitHub a Cloudflare Pages.
 
@@ -43,10 +42,11 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
 | **08** | Consumo de API y Estado | ✅ **COMPLETADO** | Conexión Frontend-Backend con `fetch`, `useEffect`, manejo de estados `loading`/`error`, cliente `api.js` y `AuthContext` global con persistencia. | Sesión 08 finalizada |
 | **09** | Dashboard CRUD en React | ✅ **COMPLETADO** | Panel con métricas y barra de progreso, tabla/tarjetas de tareas, filtros dinámicos, modales controlados de crear/editar/eliminar y toasts de feedback. | Sesión 09 finalizada |
 | **10** | Diseño Responsive + Tailwind | ✅ **COMPLETADO** | Adaptabilidad mobile-first en móviles, tablets y escritorio, menú hamburguesa interactivo en `Navbar.jsx`, métricas adaptativas y tablas scrolleables. | Sesión 10 finalizada |
-| **11** | Formularios y Validación | ✅ **COMPLETADO** | Validación en tiempo real (regex email, contraseñas con medidor de fuerza, contadores de caracteres), errores inline y campos complejos. | Pasar a Sesión 12 |
-| **12** | Deploy Backend en Render | ⏳ **SIGUIENTE** | Preparación de `Procfile`, `requirements.txt` con Gunicorn, configuración de servicio Web en Render y variables de entorno. | Despliegue en la nube |
-| **13** | Deploy Frontend en Cloudflare | 🔜 Pendiente | Build de producción (`npm run build`), configuración en Cloudflare Pages, conexión con API de Render. | Requiere cuenta Cloudflare |
+| **11** | Formularios y Validación | ✅ **COMPLETADO** | Validación en tiempo real (regex email, contraseñas con medidor de fuerza, contadores de caracteres), errores inline y campos complejos. | Sesión 11 finalizada |
+| **12** | Deploy Backend en Render | ✅ **COMPLETADO** | Archivo `Procfile`, servidor WSGI `gunicorn`, `render.yaml` IaC, puerto dinámico en `run.py` y guía completa `docs/deploy/render.md`. | Pasar a Sesión 13 |
+| **13** | Deploy Frontend en Cloudflare | ⏳ **SIGUIENTE** | Build de producción (`npm run build`), configuración en Cloudflare Pages, variables `VITE_API_URL` y conexión con Render. | Despliegue en Cloudflare |
 | **14** | Integración Final & Pruebas | 🔜 Pendiente | Pruebas de integración E2E, documentación final, revisión de rúbrica y entrega académica. | - |
+
 
 
 
@@ -238,15 +238,35 @@ A medida que avancemos, necesitarás tener listas ciertas cuentas y accesos. Est
      - `npm.cmd run build` exitoso (**1.28s**).
      - 20/20 pruebas unitarias del backend aprobadas (**0.062s**).
 
+### ✅ Sesión 12: Deploy Backend en Render (De Localhost a la Nube)
+- **Objetivo**: Preparar la aplicación backend para producción en la nube con Render, configurando el servidor WSGI Gunicorn, variables de entorno seguras, `Procfile` y despliegue continuo desde GitHub.
+- **Acciones Realizadas**:
+  1. **Servidor de Producción Gunicorn (`backend/requirements.txt`)**:
+     - Paquete `gunicorn>=21.2.0` agregado a `requirements.txt` y verificado en el entorno virtual.
+  2. **Punto de Entrada Adaptativo (`backend/run.py`)**:
+     - Actualizado para leer dinámicamente el puerto asignado por Render mediante la variable de entorno `PORT` (`int(os.environ.get("PORT", 5000))`).
+     - Modo `debug` deshabilitado por defecto para entornos de producción.
+  3. **Configuración de Despliegue (`backend/Procfile` & `render.yaml`)**:
+     - Creado `backend/Procfile` con el comando de inicio estándar: `web: gunicorn run:app`.
+     - Creado archivo de infraestructura como código `render.yaml` (Blueprint) en la raíz del repositorio para auto-deploy con Python 3.12 y plan gratuito.
+  4. **Guía Exhaustiva de Despliegue (`docs/deploy/render.md`)**:
+     - Documentación de los parámetros exactos para crear el Web Service en Render (Root Directory: `backend`, Build: `pip install -r requirements.txt`, Start: `gunicorn run:app`).
+     - Variables de entorno documentadas: `PYTHON_VERSION`, `SUPABASE_URL`, `SUPABASE_SECRET_KEY` y `JWT_SECRET`.
+     - Procedimiento de prueba y verificación de la URL pública (`/`, `/api/health`, `/api/tasks`).
+  5. **Validación y Pruebas**:
+     - 20/20 pruebas unitarias aprobadas (**0.058s**).
+     - Frontend build validado exitosamente en **1.30s**.
+
 ---
 
-### ⏳ Próxima Sesión: Sesión 12 - Deploy Backend en Render
+### ⏳ Próxima Sesión: Sesión 13 - Deploy Frontend en Cloudflare Pages
 - **Qué haremos**:
-  1. Preparar la configuración de producción del backend: `Procfile`, servidor WSGI de grado de producción (`gunicorn`), y `requirements.txt` actualizado.
-  2. Configurar la factoría de Flask para leer variables de entorno de producción (`PORT`, `RENDER`, `SUPABASE_URL`, etc.).
-  3. Documentar y guiar el despliegue del servicio Web en [Render](https://render.com) enlazado al repositorio de GitHub.
+  1. Preparar la configuración de producción del frontend: script de compilación `npm run build`, enrutamiento SPA con reglas para React Router (`_redirects` o `wrangler.toml`).
+  2. Configurar variable de entorno `VITE_API_URL` apuntando a la API pública de Render para consumo en producción.
+  3. Documentar y guiar el despliegue del frontend en [Cloudflare Pages](https://pages.cloudflare.com) conectado al repositorio de GitHub.
 - **Lo que tú necesitas hacer**:
-  - Tener una cuenta activa en [Render](https://render.com) (puedes ingresar rápidamente usando tu cuenta de GitHub `Charles2810`).
+  - Tener una cuenta activa en [Cloudflare Pages](https://pages.cloudflare.com) (puedes registrarte con tu cuenta de GitHub o email personal).
+
 
 
 
